@@ -1,5 +1,10 @@
 package draw;
 
-public class Canvas {
+import java.util.*;
+
+public class Canvas extends Observable {
+	
+	private ArrayList<DrawingPrimitive> primitives = new ArrayList<DrawingPrimitive>();
+	
 
 }
