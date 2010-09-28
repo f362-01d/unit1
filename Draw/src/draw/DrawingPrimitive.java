@@ -4,39 +4,24 @@ import java.awt.*;
 
 public abstract class DrawingPrimitive {
 	
-	public void Draw()
+	private Color color;
+	
+	public abstract void draw(Graphics2D g);
+	
+	public abstract Point getPosition();
+	public abstract void setPosition(Point p);
+	
+	public abstract Dimension getSize();
+	public abstract void setSize(Dimension d);
+	
+	public Color getColor()
 	{
-		
+		return color;
 	}
 	
-	public Point GetPosition()
+	public void setColor(Color color)
 	{
-		return null;
-	}
-	
-	public void SetPosition(Point p)
-	{
-		
-	}
-	
-	public Dimension GetSize()
-	{
-		return null;
-	}
-	
-	public void SetSize(Dimension d)
-	{
-		
-	}
-	
-	public Color GetColor()
-	{
-		return null;
-	}
-	
-	public void SetColor(Color c)
-	{
-		
+		this.color = color;
 	}
 
 }
