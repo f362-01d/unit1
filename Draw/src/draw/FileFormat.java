@@ -9,8 +9,8 @@ public abstract class FileFormat {
 	// program. shapeLines are the lines of converted 
 	// DrawingPrimitives needed to save or load a file.
 	
-	protected LinkedList<DrawingPrimitive> shapes = null;
-	protected LinkedList<String> shapeLines = null;
+	protected ArrayList<DrawingPrimitive> shapes = null;
+	protected ArrayList<String> shapeLines = null;
 	 
 	/*
 	 * This method stores the shapes
@@ -18,7 +18,7 @@ public abstract class FileFormat {
 	 * 
 	 */
 	
-	public abstract void store(LinkedList<DrawingPrimitive> 
+	public abstract void store(ArrayList<DrawingPrimitive> 
 								shapes);
 	
 	/*
@@ -27,7 +27,7 @@ public abstract class FileFormat {
 	 * for Text or a line for XML.
 	 */
 	
-	public abstract LinkedList<String> makeShapeList();
+	public abstract ArrayList<String> makeShapeList();
 	
 	/*
 	 * This method reads in the lines of a specific file type
@@ -35,5 +35,5 @@ public abstract class FileFormat {
 	 * Draw to read in.
 	 */
 	
-	public abstract LinkedList<DrawingPrimitive> makeShapes();
+	public abstract ArrayList<DrawingPrimitive> makeShapes();
 }
