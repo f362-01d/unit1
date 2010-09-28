@@ -9,17 +9,16 @@ public abstract class FileFormat {
 	// program. shapeLines are the lines of converted 
 	// DrawingPrimitives needed to save or load a file.
 	
-	protected ArrayList<DrawingPrimitive> shapes = null;
-	protected ArrayList<String> shapeLines = null;
-	 
+	protected ArrayList<DrawingPrimitive> shapes;
+	protected ArrayList<String> shapeLines;
+	
 	/*
-	 * This method stores the shapes
-	 * from the Draw program to be saved or loaded.
-	 * 
+	 * The constructor.
 	 */
 	
-	public abstract void store(ArrayList<DrawingPrimitive> 
-								shapes);
+	public FileFormat(ArrayList<DrawingPrimitive> s) {
+		shapes = s;
+	}
 	
 	/*
 	 * This method takes the list of shapes and creates

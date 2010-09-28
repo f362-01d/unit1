@@ -12,10 +12,11 @@ public abstract class FileBuilder {
 	}
 	
 	/*
-	 * This class saves the program depending upon the format
-	 * requested.
+	 * This class saves the program to a file of the given
+	 * string depending upon the format requested.
 	 */
 	
-	public abstract void save(ArrayList<DrawingPrimitive> p);
+	public abstract void save(ArrayList<DrawingPrimitive> p, 
+								String n);
 	
 }
