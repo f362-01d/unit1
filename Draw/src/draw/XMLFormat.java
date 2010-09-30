@@ -108,7 +108,7 @@ public class XMLFormat extends FileFormat {
 		Group currentGroup = (Group) d;
 		l.add("	<group>");
 		ListIterator<DrawingPrimitive> elementItr = 
-								currentGroup.getElements().listIterator();
+								currentGroup.getPrimitives().listIterator();
 		
 		while (elementItr.hasNext()) {
 			DrawingPrimitive currentElement = elementItr.next();

@@ -32,7 +32,6 @@ public class Line extends DrawingPrimitive {
 		{
 			BasicStroke stroke = new BasicStroke(3.0f);
 			g.setStroke(stroke);
-			g.drawLine((int)start.getX(), (int)start.getY(), (int)end.getX(), (int)end.getY());
 		}
 		g.draw(new Line2D.Double(start, end));
 	}

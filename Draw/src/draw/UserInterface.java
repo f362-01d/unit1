@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.IOException;
 import java.util.*;
 import draw.operations.*;
 
@@ -23,6 +24,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
 	Create line_create;
 	Delete delete;
 	Select select;
+	draw.operations.Group group;
 	Move move;
 	Copy copy;
     JMenu file;
@@ -156,6 +158,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     	move = new Move(panel,myCanvas);
     	select = new Select(panel, myCanvas);
     	copy = new Copy(panel, myCanvas);
+    	group = new draw.operations.Group(panel, myCanvas);
         panel.addKeyListener(delete);
         panel.addKeyListener(copy);
     }
@@ -180,9 +183,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Open"){
         	Save save = new Save(this);
         	ArrayList<DrawingPrimitive> myPrimitives = save.load();
-        	if(myPrimitives.size()!=0)
+        	if(myPrimitives!=null && myPrimitives.size()!=0){
+        		attachCanvas(new Canvas());
         		for(int i = 0; i<myPrimitives.size();i++)
         			myCanvas.add(myPrimitives.get(i));
+        	}
         }
         if (command == "Copy"){
         	copy.copySelected();
@@ -190,6 +195,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Save"){
         	Save mySave = new Save(this);
         	mySave.saveFile();
+        	update(myCanvas,null);
         }
         if (command == "Quit")
             System.exit(0);
@@ -237,7 +243,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         }
         
         if (command == "New"){
-        	myCanvas = new Canvas();
+        	attachCanvas(new Canvas());
         	update(myCanvas,null);
         }
         if (command == "Move"){
@@ -250,13 +256,26 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         	panel.addMouseListener(select);
         	panel.addKeyListener(select);
         }
+        
+        if(command == "Group/Ungroup")
+        {
+        	System.out.println(myCanvas.getSelected().get(0).getClass().toString());
+        	if(myCanvas.getSelected().get(0).getClass().toString().equals("class draw.Group"))
+        	{
+        		System.out.println("ungrouping");
+        		group.ungroupSelected();
+        	}
+        	else
+        		group.groupSelected();
+        }
+        update(myCanvas,null);
     }
     
     /*
      * public void resetButtons()
      * resets the buttons to a base state.
      */
-    public void resetButtons(){
+    public void resetButtons(){ 
     	moveButton.setBackground(defaultBackground);
     	selectButton.setBackground(defaultBackground);
     	createLine.setBackground(defaultBackground);

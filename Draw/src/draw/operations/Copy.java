@@ -31,10 +31,8 @@ public class Copy extends Operation implements KeyListener {
 		s.unselectAll();
 		for(int i=0;i<selected.size();i++)
 		{
-			System.out.println(i);
 			DrawingPrimitive copy = selected.get(i).clone();
 			copy.setSelected(true);
-			copy.setColor(Color.BLUE);
 			getCanvas().add(copy);
 			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}

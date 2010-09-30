@@ -70,7 +70,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		if(mouseDownLocation != null)
+		if(mouseDownLocation != null && mouseLastPosition != null)
 		{
 			try {
 				this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
@@ -82,6 +82,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 				e.printStackTrace();
 			}
 			mouseDownLocation = null;
+			mouseLastPosition = null;
 		}
 	}
 	

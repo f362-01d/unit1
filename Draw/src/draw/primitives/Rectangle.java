@@ -45,15 +45,11 @@ public class Rectangle extends DrawingPrimitive {
 		{
 			BasicStroke stroke = new BasicStroke(3.0f);
 			g.setStroke(stroke);
-			if(this.cornerStyle == CornerStyle.Sharp)
-				g.drawRect((int)topLeft.getX(), (int)topLeft.getY(), (int)size.getWidth(), (int)size.getHeight());
-			else if(this.cornerStyle == CornerStyle.Rounded)
-				g.drawRoundRect((int)topLeft.getX(), (int)topLeft.getY(), (int)size.getWidth(), (int)size.getHeight(), ROUND_CORNER_RADIUS, ROUND_CORNER_RADIUS);
 		}
 		if(this.cornerStyle == CornerStyle.Sharp)
 			g.draw(new Rectangle2D.Double(topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight()));
 		else if(this.cornerStyle == CornerStyle.Rounded)
-			g.draw(new RoundRectangle2D.Double(ROUND_CORNER_RADIUS, ROUND_CORNER_RADIUS, topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight()));
+			g.draw(new RoundRectangle2D.Double(topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight(), ROUND_CORNER_RADIUS, ROUND_CORNER_RADIUS));
 	}
 
 	@Override
