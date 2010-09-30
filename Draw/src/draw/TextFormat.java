@@ -76,22 +76,36 @@ public class TextFormat extends FileFormat {
 	
 	protected void makeRLines(ArrayList<String> l,
 								DrawingPrimitive p) {
+		Rectangle currentRec = (Rectangle) p;
 		String line = new String("rect ");
-		line = line.concat((int) p.getPosition().getX() + " ");
-		line = line.concat((int) p.getPosition().getY() + " ");
-		line = line.concat((int) (p.getPosition().getX()
-				+ p.getSize().getWidth()) + " ");
-		line = line.concat((int) (p.getPosition().getY()
-				+ p.getSize().getHeight()) + " ");
-		if (p.getColor() == Color.BLACK) {
-			line = line.concat("k");
-		} else if (p.getColor().getRGB() == Color.BLUE.getRGB()) {
-			line = line.concat("b");
-		} else if (p.getColor().getRGB() == Color.GREEN.getRGB()) {
-			line = line.concat("g");
-		} else if (p.getColor().getRGB() == Color.RED.getRGB()) {
-			line = line.concat("r");
+		line = line.concat((int) currentRec.getPosition().getX() + " ");
+		line = line.concat((int) currentRec.getPosition().getY() + " ");
+		line = line.concat((int) (currentRec.getPosition().getX()
+				+ currentRec.getSize().getWidth()) + " ");
+		line = line.concat((int) (currentRec.getPosition().getY()
+				+ currentRec.getSize().getHeight()) + " ");
+		if (currentRec.getColor().getRGB() == Color.BLACK.getRGB()) {
+			line = line.concat("k ");
+		} else if (currentRec.getColor().getRGB() 
+						== Color.BLUE.getRGB()) {
+			line = line.concat("b ");
+		} else if (currentRec.getColor().getRGB() 
+						== Color.GREEN.getRGB()) {
+			line = line.concat("g ");
+		} else if (currentRec.getColor().getRGB() 
+						== Color.RED.getRGB()) {
+			line = line.concat("r ");
 		} else {
+		}
+		
+		if (currentRec.getCornerStyle().toString()
+										.equals("Rounded")) {
+			line = line.concat("r");
+		} else if (currentRec.getCornerStyle().toString()
+										.equals("Sharp")) {
+			line = line.concat("s");
+		} else {
+			System.out.println(currentRec.getCornerStyle().toString());
 		}
 		l.add(line);
 	}
@@ -107,9 +121,11 @@ public class TextFormat extends FileFormat {
 		
 		while (elementItr.hasNext()) {
 			DrawingPrimitive currentElement = elementItr.next();
-			if (currentElement.getClass().toString().equals("class draw.primitives.Line")) {
+			if (currentElement.getClass().toString()
+					.equals("class draw.primitives.Line")) {
 				makeLLines(l, currentElement);
-			} else if (currentElement.getClass().toString().equals("class draw.primitives.Rectangle")) {
+			} else if (currentElement.getClass().toString()
+					.equals("class draw.primitives.Rectangle")) {
 				makeRLines(l, currentElement);
 			} else {
 				makeGLines(l, currentElement);
