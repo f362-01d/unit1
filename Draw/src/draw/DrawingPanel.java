@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
-
 import javax.swing.JPanel;
 
 /*
@@ -33,6 +32,10 @@ public class DrawingPanel extends JPanel{
         ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getPrimitives();
         for (int i = 0;i<myPrimitives.size(); i++)
         	myPrimitives.get(i).draw((Graphics2D)this.getGraphics());
+    }
+    
+    public void repaint(){
+    	
     }
 
     /*

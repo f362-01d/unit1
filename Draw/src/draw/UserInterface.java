@@ -171,7 +171,6 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      */
     public void actionPerformed(ActionEvent arg0) {
         String command = arg0.getActionCommand();
-        System.out.println(command);
         resetButtons();
         removeListeners();
         if (command == "Open"){
@@ -267,6 +266,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     		button.setBackground(Color.gray);
     	else
     		button.setBackground(defaultBackground);		
+    }
+    
+    public void paint(Graphics g){
+    	super.paint(this.getGraphics());
+    	panel.paintComponent(myCanvas);
     }
 }
 

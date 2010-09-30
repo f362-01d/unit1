@@ -42,7 +42,6 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0.getY());
 		
 	}
 
