@@ -8,6 +8,7 @@ package draw;
 import javax.swing.*;
 
 import draw.primitives.*;
+import draw.primitives.Rectangle.CornerStyle;
 
 import java.awt.*;
 import java.awt.Rectangle;
@@ -32,7 +33,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JButton createLine;
     JButton createRectangle;
     DrawingPanel panel;
-    Canvas myCanvas;
+    public Canvas myCanvas;
     Color defaultBackground;
     JFileChooser fc;
     
@@ -65,6 +66,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         JMenuItem copyMenu = new JMenuItem("Copy");
         JMenuItem groupMenu = new JMenuItem("Group");
         JMenuItem open = new JMenuItem("Open");
+        JMenuItem newItem = new JMenuItem("New");
         
         //the buttons that allow you to add items without going through the menu.
         createLine = new JButton("Create Line");
@@ -93,8 +95,10 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         group.addActionListener(this);
         groupMenu.addActionListener(this);
         open.addActionListener(this);
+        newItem.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
+        file.add(newItem);
         file.add(open);
         file.add(save);
         file.add(quit);
@@ -129,7 +133,6 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         moveButton.setBounds(new Rectangle(0,30,100,20));
         selectButton.setBounds(new Rectangle(100,30,100,20));
         panel.setBounds(new Rectangle(0,70,400,400));
-        
     }
     
     /*
@@ -144,9 +147,10 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * public attachCanvas
      * attaches a canvas for the class to observe.
      */
-    public void attachCanvas(Canvas canvas){
+    @SuppressWarnings("unchecked")
+	public void attachCanvas(Canvas canvas){
     	myCanvas = canvas;
-        rect_create = new Create(panel,myCanvas,new draw.primitives.Rectangle(null,null).getClass());
+        rect_create = new Create(panel,myCanvas,new draw.primitives.Rectangle(new Point(),new Point()).getClass());
     	line_create = new Create(panel,myCanvas,new Line(null,null).getClass());
     	delete = new Delete(panel,myCanvas);
     	move = new Move(panel,myCanvas);
@@ -174,32 +178,18 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         resetButtons();
         removeListeners();
         if (command == "Open"){
-        	int returnVal = fc.showOpenDialog(UserInterface.this);
-
-        	if (returnVal == JFileChooser.APPROVE_OPTION) 
-        		System.out.println( fc.getSelectedFile());
+        	Save save = new Save(this);
+        	ArrayList<DrawingPrimitive> myPrimitives = save.load();
+        	if(myPrimitives.size()!=0)
+        		for(int i = 0; i<myPrimitives.size();i++)
+        			myCanvas.add(myPrimitives.get(i));
         }
         if (command == "Copy"){
         	copy.copySelected();
         }
         if (command == "Save"){
-        	int returnVal = fc.showSaveDialog(UserInterface.this);
-        	if (returnVal == JFileChooser.APPROVE_OPTION){
-        		String filename = fc.getSelectedFile().getName();
-        		String ext = filename.substring(filename.indexOf('.'));
-        		System.out.println("/"+ext+"/");
-        		if (ext.equals(".txt")){
-        			TextBuilder builder = new TextBuilder();
-        			builder.save(myCanvas.getPrimitives(), filename);
-        		}
-        		else if (ext.equals(".xml")){
-        			XMLBuilder builder = new XMLBuilder();
-        			builder.save(myCanvas.getPrimitives(),filename);
-        		}
-        		else{
-        			JOptionPane.showMessageDialog(this, "Incorrect extention");
-        		}
-        	}
+        	Save mySave = new Save(this);
+        	mySave.saveFile();
         }
         if (command == "Quit")
             System.exit(0);
@@ -220,12 +210,35 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         }
         	
         if (command == "Properties"){
-            editRectangle edit = new editRectangle("Edit line");
-            edit.setVisible(true);
+        	ArrayList<DrawingPrimitive> selection = myCanvas.getSelected();
+        	if(!selection.isEmpty())
+        	{
+	        	DrawingPrimitive d = selection.get(0);
+	        	String className = d.getClass().toString();
+	        	if(className.equals("class draw.primitives.Line"))
+	        	{
+		            editLine edit = new editLine(d, panel, myCanvas, "Edit Line");
+		            edit.setVisible(true);
+	        	}
+	        	else if(className.equals("class draw.primitives.Rectangle"))
+	        	{
+		            editRectangle edit = new editRectangle(d, panel, myCanvas, "Edit Rectangle");
+		            edit.setVisible(true);
+	        	}
+        	}
+        	else
+        	{
+        		//TODO: warning
+        	}
         }
         if (command == "Delete"){
             delete.deleteSelected();
             
+        }
+        
+        if (command == "New"){
+        	myCanvas = new Canvas();
+        	update(myCanvas,null);
         }
         if (command == "Move"){
         	swapColor(moveButton);
@@ -280,16 +293,22 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
  * This is a sub-class for a properties J-Frame, it is the basic edit panel for a line segment.
  */
 class editLine extends JFrame implements ActionListener{
-    ButtonGroup group;
-    JButton done = new JButton("Done");
+    protected ButtonGroup group;
+    protected JButton done = new JButton("Done");
+    protected DrawingPrimitive primitive;
+    protected DrawingPanel panel;
+    protected Canvas canvas;
     
     /*
      * public editLine
      * @param name - the name of the panel that is displayed on the title bar.
      * This panel allows us to modify the color of strings with a radio button.
      */
-    public editLine(String name){
+    public editLine(DrawingPrimitive primitive, DrawingPanel panel, Canvas canvas, String name){
         super(name);
+        this.panel = panel;
+        this.primitive = primitive;
+        this.canvas = canvas;
         this.setFocusable(true);
         setSize(200,250);
         setLayout(new GridLayout(0,1));
@@ -320,9 +339,22 @@ class editLine extends JFrame implements ActionListener{
      * @param arg0 - the button press that called this method.
      * allows us to close this window, and identify which color the user has chosen for the line segment.
      */
-    public void actionPerformed(ActionEvent arg0) {
-        System.out.println(group.getSelection().getActionCommand());
-        this.setVisible(true);
+    public void actionPerformed(ActionEvent arg0)
+    {
+    	String col = group.getSelection().getActionCommand();
+    	Color newColor = Color.BLACK;
+    	System.out.println(col);
+    	if(col.equals("black"))
+    		newColor = Color.BLACK;
+    	else if(col.equals("red"))
+    		newColor = Color.RED;
+    	else if(col.equals("blue"))
+    		newColor = Color.BLUE;
+    	else if(col.equals("green"))
+    		newColor = Color.GREEN;
+    	this.primitive.setColor(newColor);
+        this.setVisible(false);
+        panel.paintComponent(canvas);
     }
 }
 
@@ -333,14 +365,16 @@ class editLine extends JFrame implements ActionListener{
  */
 class editRectangle extends editLine implements ActionListener{
     ButtonGroup edges = new ButtonGroup();
+    DrawingPrimitive primitive;
     
     /*
      * public editRectangle
      * @param name- the name of the window to be displayed in the title bar of the frame.
      * This allows us to edit simple rectangles.
      */
-    public editRectangle(String name){
-        super(name);
+    public editRectangle(DrawingPrimitive primitive, DrawingPanel panel, Canvas canvas, String name){
+        super(primitive, panel, canvas, name);
+        this.primitive = primitive;
         remove(done);
         setSize(200,350);
         JRadioButton rounded = new JRadioButton ("Rounded Edges");
@@ -361,7 +395,12 @@ class editRectangle extends editLine implements ActionListener{
      * This method allows us to retrieve information from the user about the rectangle's formatting.
      */
     public void actionPerformed(ActionEvent e) {
-        System.out.println(edges.getSelection().getActionCommand());
-        super.actionPerformed(e);
+    	draw.primitives.Rectangle editRect = (draw.primitives.Rectangle)this.primitive;
+        String edges = this.edges.getSelection().getActionCommand();
+        if(edges.equals("hard"))
+        	editRect.setCornerStyle(CornerStyle.Sharp);
+        else if(edges.equals("rounded"))
+        	editRect.setCornerStyle(CornerStyle.Rounded);
+    	super.actionPerformed(e);
     }
 }

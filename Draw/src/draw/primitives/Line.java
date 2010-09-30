@@ -27,7 +27,13 @@ public class Line extends DrawingPrimitive {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(this.getColor());
+		g.setPaint(this.getColor());
+		if(isSelected())
+		{
+			BasicStroke stroke = new BasicStroke(3.0f);
+			g.setStroke(stroke);
+			g.drawLine((int)start.getX(), (int)start.getY(), (int)end.getX(), (int)end.getY());
+		}
 		g.draw(new Line2D.Double(start, end));
 	}
 
