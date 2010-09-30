@@ -19,7 +19,7 @@ public class Save {
 	public ArrayList<DrawingPrimitive> load(){
 		JFileChooser fc = new JFileChooser();
 		myInterface.myCanvas = new Canvas();
-    	int returnVal = fc.showOpenDialog(myInterface);
+    	int returnVal = fc.showOpenDialog(myInterface); 
     	if (returnVal == JFileChooser.APPROVE_OPTION) {
     		try{
     			TextBuilder file = new TextBuilder();

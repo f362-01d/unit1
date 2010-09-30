@@ -256,7 +256,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * public void resetButtons()
      * resets the buttons to a base state.
      */
-    public void resetButtons(){
+    public void resetButtons(){ 
     	moveButton.setBackground(defaultBackground);
     	selectButton.setBackground(defaultBackground);
     	createLine.setBackground(defaultBackground);
