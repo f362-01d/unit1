@@ -2,7 +2,6 @@ package draw.primitives;
 
 import java.awt.*;
 import java.awt.geom.*;
-
 import draw.DrawingPrimitive;
 
 public class Line extends DrawingPrimitive {
