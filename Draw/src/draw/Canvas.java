@@ -1,7 +1,6 @@
 package draw;
 
 import java.util.*;
-import draw.DrawingPrimative;
 
 public class Canvas extends Observable {
 	
@@ -18,7 +17,7 @@ public class Canvas extends Observable {
 
         // Iterate over the array of DrawingPrimitives, adding all selected
         // elements to another array which is later returned.
-        for(int i=0;i<primitives.size;i++){
+        for(int i=0;i<primitives.size();i++){
             if( primitives.get(i).isSelected() ){
                 selected.add( primitives.get(i) );
             } // if
@@ -45,7 +44,7 @@ public class Canvas extends Observable {
         return targetFound;
     } // setSelected()
 
-    public void add( DrawingPrimative newPrimitive ){
+    public void add( DrawingPrimitive newPrimitive ){
         primitives.add( newPrimitive );
     } // add()
 
