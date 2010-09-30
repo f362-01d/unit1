@@ -1,4 +1,4 @@
-package draw;
+package Draw.src.draw;
 
 /* Draw.java
  * drawing GUI design
@@ -79,8 +79,8 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         add(panel);
         
         // Because we set the layout to null, we must manually set the bounds for the objects.
-        createLine.setBounds(new Rectangle(0,30,150,20));
-        createRectangle.setBounds(new Rectangle(150,30,150,20));
+        createLine.setBounds(new Rectangle(0,30,200,20));
+        createRectangle.setBounds(new Rectangle(200,30,200,20));
         menuBar.setBounds(new Rectangle(0,0,400,30));
         panel.setBounds(new Rectangle(0,50,400,400));
         
