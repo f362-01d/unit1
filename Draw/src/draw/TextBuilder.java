@@ -1,7 +1,12 @@
 package draw;
 
 import java.util.*;
+import java.awt.Point;
 import java.io.*;
+import draw.primitives.*;
+
+import draw.primitives.Line;
+import draw.primitives.Rectangle;
 
 public class TextBuilder extends FileBuilder {
 	
@@ -28,6 +33,7 @@ public class TextBuilder extends FileBuilder {
 				String line = lineIter.next();
 				saver.write(line);
 				saver.newLine();
+				System.out.println("saving...");
 			}
 			saver.close();
 		} catch (IOException ex) {
@@ -52,5 +58,13 @@ public class TextBuilder extends FileBuilder {
 			System.err.println("Error loading file.");
 		}
 		return shapeFormat.makeShapes(lines);
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<DrawingPrimitive> testList = new ArrayList<DrawingPrimitive>();
+		testList.add(new Line(new Point(100,155), new Point(200,185)));
+		testList.add(new Rectangle(new Point(25,25),new Point(50,50)));
+		TextBuilder builder = new TextBuilder();
+		builder.save(testList, "test");
 	}
 }

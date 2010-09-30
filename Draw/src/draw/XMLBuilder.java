@@ -2,6 +2,8 @@ package draw;
 
 import java.util.*;
 import java.io.*;
+import java.awt.Point;
+import draw.primitives.*;
 
 public class XMLBuilder extends FileBuilder {
 	
@@ -32,5 +34,13 @@ public class XMLBuilder extends FileBuilder {
 		} catch (IOException ex) {
 			System.err.println("Error writing file.");
 		}
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<DrawingPrimitive> testList = new ArrayList<DrawingPrimitive>();
+		testList.add(new Line(new Point(100,155), new Point(200,185)));
+		testList.add(new Rectangle(new Point(25,25),new Point(50,50)));
+		XMLBuilder builder = new XMLBuilder();
+		builder.save(testList, "test");
 	}
 }

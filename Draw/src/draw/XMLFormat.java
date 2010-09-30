@@ -1,5 +1,6 @@
 package draw;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -14,9 +15,9 @@ public class XMLFormat extends FileFormat {
 		
 		while (shapeItr.hasNext()) {
 			DrawingPrimitive currentShape = shapeItr.next();
-			if (currentShape.getClass().toString().equals("Line")) {
+			if (currentShape.getClass().toString().equals("class draw.primitives.Line")) {
 				makeLLines(this.shapeLines, currentShape);
-			} else if (currentShape.getClass().toString().equals("Rectangle")) {
+			} else if (currentShape.getClass().toString().equals("class draw.primitives.Rectangle")) {
 				makeRLines(this.shapeLines, currentShape);
 			} else {
 				makeGLines(this.shapeLines, currentShape);
@@ -37,33 +38,51 @@ public class XMLFormat extends FileFormat {
 	
 	protected void makeLLines(ArrayList<String> l, DrawingPrimitive d) {
 		l.add("<line>");
-		l.add(" <begin>");
-		l.add("  <x>" + d.getPosition().getX() + "</x>");
-		l.add("  <y>" + d.getPosition().getY() + "</y>");
-		l.add(" </begin>");
-		l.add(" <end>");
-		l.add("  <x>" + (d.getPosition().getX()
+		l.add("	<begin>");
+		l.add("		<x>" + d.getPosition().getX() + "</x>");
+		l.add("		<y>" + d.getPosition().getY() + "</y>");
+		l.add("	</begin>");
+		l.add("	<end>");
+		l.add("		<x>" + (d.getPosition().getX()
 				+ d.getSize().getWidth()) + "</x>");
-		l.add("  <y>" + (d.getPosition().getY()
+		l.add("		<y>" + (d.getPosition().getY()
 				+ d.getSize().getHeight()) + "</y>");
-		l.add(" </end>");
-		l.add(" <color>" + d.getColor().toString() + "</color>");
+		l.add("	</end>");
+		if (d.getColor() == Color.BLACK) {
+			l.add("	<color>black</black>");
+		} else if (d.getColor().getRGB() == Color.BLUE.getRGB()) {
+			l.add("	<color>blue</color>");
+		} else if (d.getColor().getRGB() == Color.GREEN.getRGB()) {
+			l.add("	<color>green</color>");
+		} else if (d.getColor().getRGB() == Color.RED.getRGB()) {
+			l.add("	<color>red</color>");
+		} else {
+		}
 		l.add("</line>");
 	}
 	
 	protected void makeRLines(ArrayList<String> l, DrawingPrimitive d) {
 		l.add("<rectangle>");
-		l.add(" <upper-left>");
-		l.add("  <x>" + d.getPosition().getX() + "</x>");
-		l.add("  <y>" + d.getPosition().getY() + "</y>");
-		l.add(" </upper-left>");
-		l.add(" <lower-right>");
-		l.add("  <x>" + (d.getPosition().getX()
+		l.add("	<upper-left>");
+		l.add("		<x>" + d.getPosition().getX() + "</x>");
+		l.add("		<y>" + d.getPosition().getY() + "</y>");
+		l.add("	</upper-left>");
+		l.add("	<lower-right>");
+		l.add("		<x>" + (d.getPosition().getX()
 				+ d.getSize().getWidth()) + "</x>");
-		l.add("  <y>" + (d.getPosition().getY()
+		l.add("		<y>" + (d.getPosition().getY()
 				+ d.getSize().getHeight()) + "</y>");
-		l.add(" </lower-right>");
-		l.add(" <color>" + d.getColor().toString() + "</color>");
+		l.add("	</lower-right>");
+		if (d.getColor() == Color.BLACK) {
+			l.add("	<color>black</black>");
+		} else if (d.getColor().getRGB() == Color.BLUE.getRGB()) {
+			l.add("	<color>blue</color>");
+		} else if (d.getColor().getRGB() == Color.GREEN.getRGB()) {
+			l.add("	<color>green</color>");
+		} else if (d.getColor().getRGB() == Color.RED.getRGB()) {
+			l.add("	<color>red</color>");
+		} else {
+		}
 		l.add("</rectangle>");
 	}
 	
