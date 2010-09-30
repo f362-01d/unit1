@@ -16,7 +16,7 @@ import java.util.*;
 public class UserInterface extends JFrame implements ActionListener, Observer{
     
     JMenu file;
-    JMenu edit;
+    JMenu edit; 
     JMenu create;
     JButton moveButton;
     JButton selectButton;
