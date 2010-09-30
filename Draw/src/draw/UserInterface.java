@@ -14,8 +14,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class UserInterface extends JFrame implements ActionListener{
+public class UserInterface extends JFrame implements ActionListener, Observer{
     
     JMenu file;
     JMenu edit;
@@ -30,7 +32,7 @@ public class UserInterface extends JFrame implements ActionListener{
      * @param name - The name of the object to be displayed on the title bar of the frame.
      */
     public UserInterface(String name){
-        super(name);
+        super(name+"");
         lines = new ArrayList<Line2D>();
         setSize(400,450);
         setResizable(false);
@@ -41,12 +43,12 @@ public class UserInterface extends JFrame implements ActionListener{
         create = new JMenu("Create");
         
         // the menu items; these are the selectable options in the top menu bar.
-        JMenuItem delete = new JMenuItem("delete");
-        JMenuItem save = new JMenuItem("save");
-        JMenuItem quit = new JMenuItem("quit");
-        JMenuItem line = new JMenuItem("line");
-        JMenuItem rectangle = new JMenuItem("rectangle");
-        JMenuItem properties = new JMenuItem("properties");
+        JMenuItem delete = new JMenuItem("Delete");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem quit = new JMenuItem("Quit");
+        JMenuItem line = new JMenuItem("Line");
+        JMenuItem rectangle = new JMenuItem("Rectangle");
+        JMenuItem properties = new JMenuItem("Properties");
         
         //the buttons that allow you to add items without going through the menu.
         JButton createLine = new JButton("Create Line");
@@ -63,10 +65,10 @@ public class UserInterface extends JFrame implements ActionListener{
         createRectangle.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
-        file.add(quit);
         file.add(save);
-        edit.add(delete);
+        file.add(quit);
         edit.add(properties);
+        edit.add(delete);
         create.add(line);
         create.add(rectangle);
         menuBar.add(file);
@@ -80,8 +82,8 @@ public class UserInterface extends JFrame implements ActionListener{
         add(panel);
         
         // Because we set the layout to null, we must manually set the bounds for the objects.
-        createLine.setBounds(new Rectangle(0,30,150,20));
-        createRectangle.setBounds(new Rectangle(150,30,150,20));
+        createLine.setBounds(new Rectangle(0,30,200,20));
+        createRectangle.setBounds(new Rectangle(200,30,200,20));
         menuBar.setBounds(new Rectangle(0,0,400,30));
         panel.setBounds(new Rectangle(0,50,400,400));
         
@@ -91,7 +93,7 @@ public class UserInterface extends JFrame implements ActionListener{
      * public update
      * calls the repaint method on the view class, the panel.
      */
-    public void update(){
+    public void update(Observable arg0, Object arg1){
         panel.repaint();
     }
     
@@ -109,19 +111,19 @@ public class UserInterface extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent arg0) {
         String command = arg0.getActionCommand();
         System.out.println(command);
-        if (command == "quit")
+        if (command == "Quit")
             System.exit(0);
-        if (command == "line" || command == "Create Line"){
+        if (command == "Line" || command == "Create Line"){
             lines.add(new Line2D.Double(10,10,200,200));
             panel.repaint();
         }
-        if (command == "properties"){
+        if (command == "Properties"){
             editRectangle edit = new editRectangle("Edit line");
             edit.setVisible(true);
         }
-        if (command == "delete"){
+        if (command == "Delete"){
             UserInterface.lines.remove(0);
-            update();
+            update(null, null);
         }
     }
 }
@@ -202,23 +204,27 @@ class editLine extends JFrame implements ActionListener{
     public editLine(String name){
         super(name);
         this.setFocusable(true);
-        setSize(200,200);
+        setSize(200,250);
         setLayout(new GridLayout(0,1));
         JRadioButton black = new JRadioButton("Black");
         black.setSelected(true);
         JRadioButton blue = new JRadioButton("Blue");
         JRadioButton green = new JRadioButton("Green");
+        JRadioButton red = new JRadioButton("Red");
         group = new ButtonGroup();
         done.addActionListener(this);
+        group.add(red);
         group.add(green);
         group.add(blue);
         group.add(black);
         black.setActionCommand("black");
+        red.setActionCommand("red");
         blue.setActionCommand("blue");
         green.setActionCommand("green");
         add(black);
         add(blue);
         add(green);
+        add(red);
         add(done);
     }
     
@@ -249,7 +255,7 @@ class editRectangle extends editLine implements ActionListener{
     public editRectangle(String name){
         super(name);
         remove(done);
-        setSize(300,300);
+        setSize(200,350);
         JRadioButton rounded = new JRadioButton ("Rounded Edges");
         JRadioButton hard = new JRadioButton ("Hard Edges");
         edges.add(rounded);
