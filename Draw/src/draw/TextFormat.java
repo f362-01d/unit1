@@ -107,9 +107,9 @@ public class TextFormat extends FileFormat {
 		
 		while (elementItr.hasNext()) {
 			DrawingPrimitive currentElement = elementItr.next();
-			if (currentElement.getClass().toString().equals("Line")) {
+			if (currentElement.getClass().toString().equals("class draw.primitives.Line")) {
 				makeLLines(l, currentElement);
-			} else if (currentElement.getClass().toString().equals("Rectangle")) {
+			} else if (currentElement.getClass().toString().equals("class draw.primitives.Rectangle")) {
 				makeRLines(l, currentElement);
 			} else {
 				makeGLines(l, currentElement);
