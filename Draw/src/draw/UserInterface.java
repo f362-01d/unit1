@@ -172,7 +172,6 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      */
     public void actionPerformed(ActionEvent arg0) {
         String command = arg0.getActionCommand();
-        System.out.println(command);
         resetButtons();
         removeListeners();
         if (command == "Open"){
@@ -186,9 +185,22 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         }
         if (command == "Save"){
         	int returnVal = fc.showSaveDialog(UserInterface.this);
-
-        	if (returnVal == JFileChooser.APPROVE_OPTION) 
-        		System.out.println( fc.getSelectedFile());
+        	if (returnVal == JFileChooser.APPROVE_OPTION){
+        		String filename = fc.getSelectedFile().getName();
+        		String ext = filename.substring(filename.indexOf('.'));
+        		System.out.println("/"+ext+"/");
+        		if (ext.equals(".txt")){
+        			TextBuilder builder = new TextBuilder();
+        			builder.save(myCanvas.getPrimitives(), filename);
+        		}
+        		else if (ext.equals(".xml")){
+        			XMLBuilder builder = new XMLBuilder();
+        			builder.save(myCanvas.getPrimitives(),filename);
+        		}
+        		else{
+        			JOptionPane.showMessageDialog(this, "Incorrect extention");
+        		}
+        	}
         }
         if (command == "Quit")
             System.exit(0);
@@ -273,6 +285,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     		button.setBackground(Color.gray);
     	else
     		button.setBackground(defaultBackground);		
+    }
+    
+    public void paint(Graphics g){
+    	super.paint(this.getGraphics());
+    	panel.paintComponent(myCanvas);
     }
 }
 

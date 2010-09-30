@@ -11,13 +11,14 @@ public class XMLBuilder extends FileBuilder {
 		super();
 	}
 	
-	public void save(ArrayList<DrawingPrimitive> s, String n) {
+	public void save(ArrayList<DrawingPrimitive> s, String n) 
+									throws IOException{
 		BufferedWriter saver = null;
 		
 		try {
-			saver = new BufferedWriter(new FileWriter(n + ".xml"));
+			saver = new BufferedWriter(new FileWriter(n));
 		} catch (IOException e) {
-			System.err.println("Could not write file.");
+			throw e;
 		}
 		
 		ArrayList<String> fileLines;
@@ -32,7 +33,7 @@ public class XMLBuilder extends FileBuilder {
 			}
 			saver.close();
 		} catch (IOException ex) {
-			System.err.println("Error writing file.");
+			throw ex;
 		}
 	}
 	
@@ -41,6 +42,10 @@ public class XMLBuilder extends FileBuilder {
 		testList.add(new Line(new Point(100,155), new Point(200,185)));
 		testList.add(new Rectangle(new Point(25,25),new Point(50,50)));
 		XMLBuilder builder = new XMLBuilder();
-		builder.save(testList, "test");
+		try {
+			builder.save(testList, "test.xml");
+		} catch (IOException e) {
+			System.err.println("Error saving XML file.");
+		}
 	}
 }
