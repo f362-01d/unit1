@@ -1,6 +1,7 @@
 package draw;
 
 import java.util.*;
+import java.io.*;
 
 public abstract class FileBuilder {
 	
@@ -17,5 +18,5 @@ public abstract class FileBuilder {
 	 */
 	
 	public abstract void save(ArrayList<DrawingPrimitive> p, 
-								String n);
+								String n) throws IOException;
 }

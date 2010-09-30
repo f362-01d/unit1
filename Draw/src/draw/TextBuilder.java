@@ -14,14 +14,15 @@ public class TextBuilder extends FileBuilder {
 		super();
 	}
 	
-	public void save(ArrayList<DrawingPrimitive> a, String n) {
+	public void save(ArrayList<DrawingPrimitive> a, String n) 
+										throws IOException{
 		
 		BufferedWriter saver = null;
 		
 		try {
-			saver = new BufferedWriter(new FileWriter(n + ".txt"));
+			saver = new BufferedWriter(new FileWriter(n));
 		} catch (IOException e) {
-			System.err.println("Could not write file.");
+			throw e;
 		}
 		
 		ArrayList<String> fileLines;
@@ -33,21 +34,21 @@ public class TextBuilder extends FileBuilder {
 				String line = lineIter.next();
 				saver.write(line);
 				saver.newLine();
-				System.out.println("saving...");
 			}
 			saver.close();
 		} catch (IOException ex) {
-			System.err.println("Error writing file.");
+			throw ex;
 		}
 	}
 	
-	public ArrayList<DrawingPrimitive> load(String f) {
+	public ArrayList<DrawingPrimitive> load(String f) 
+									throws IOException {
 		BufferedReader reader = null;
 		ArrayList<String> lines = new ArrayList<String>();
 		TextFormat shapeFormat = new TextFormat(
 						new ArrayList<DrawingPrimitive>());
 		try {
-			reader = new BufferedReader(new FileReader(f+".txt"));
+			reader = new BufferedReader(new FileReader(f));
 			String line = new String();
 			while (reader.ready()) {
 				line = reader.readLine();
@@ -55,8 +56,7 @@ public class TextBuilder extends FileBuilder {
 			}
 			reader.close();
 		} catch(IOException e) {
-			System.err.println("Error loading file.");
-			e.printStackTrace();
+			throw e;
 		} catch(NumberFormatException ex) {
 			System.err.println("Error loading file.");
 		}
@@ -66,7 +66,17 @@ public class TextBuilder extends FileBuilder {
 	public static void main(String[] args) {
 		ArrayList<DrawingPrimitive> testList = new ArrayList<DrawingPrimitive>();
 		TextBuilder builder = new TextBuilder();
-		testList = builder.load("test");
-		builder.save(testList, "test2");
+		
+		try {
+			testList = builder.load("test.txt");
+		} catch (IOException e) {
+			System.err.println("Error loading file.");
+		}
+		
+		try {
+			builder.save(testList, "test2.txt");
+		} catch (IOException e) {
+			System.err.println("Error saving file.");
+		}
 	}
 }
