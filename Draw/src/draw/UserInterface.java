@@ -4,8 +4,8 @@ package draw;
  * drawing GUI design
  * @Author - Steven Horowitz
  */
-import javax.swing.*;
 
+import javax.swing.*;
 import draw.primitives.*;
 import java.awt.*;
 import java.awt.Rectangle;
@@ -26,6 +26,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     public static boolean selected = false;
     Canvas myCanvas;
     Color defaultBackground;
+    JFileChooser fc;
     
     public static ArrayList<Line2D> lines;
     
@@ -35,6 +36,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      */
     public UserInterface(String name){
         super(name);
+        fc = new JFileChooser("SCRAW");
         lines = new ArrayList<Line2D>();
         setSize(400,480);
         setResizable(false);
@@ -52,6 +54,8 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         JMenuItem rectangle = new JMenuItem("Rectangle");
         JMenuItem properties = new JMenuItem("Properties");
         JMenuItem copyMenu = new JMenuItem("Copy");
+        JMenuItem groupMenu = new JMenuItem("Group");
+        JMenuItem open = new JMenuItem("Open");
         
         //the buttons that allow you to add items without going through the menu.
         createLine = new JButton("Create Line");
@@ -78,11 +82,15 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         selectButton.addActionListener(this);
         moveButton.addActionListener(this);
         group.addActionListener(this);
+        groupMenu.addActionListener(this);
+        open.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
+        file.add(open);
         file.add(save);
         file.add(quit);
         edit.add(properties);
+        edit.add(groupMenu);
         edit.add(deleteMenu);
         edit.add(copyMenu);
         create.add(line);
@@ -148,6 +156,18 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         String command = arg0.getActionCommand();
         System.out.println(command);
         resetButtons();
+        if (command == "Open"){
+        	int returnVal = fc.showOpenDialog(UserInterface.this);
+
+        	if (returnVal == JFileChooser.APPROVE_OPTION) 
+        		System.out.println( fc.getSelectedFile());
+        }
+        if (command == "Save"){
+        	int returnVal = fc.showSaveDialog(UserInterface.this);
+
+        	if (returnVal == JFileChooser.APPROVE_OPTION) 
+        		System.out.println( fc.getSelectedFile());
+        }
         if (command == "Quit")
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
