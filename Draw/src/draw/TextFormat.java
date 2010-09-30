@@ -102,7 +102,7 @@ public class TextFormat extends FileFormat {
 		Group currentGroup = (Group) p;
 		l.add("begin");
 		
-		ListIterator<DrawingPrimitive> elementItr = currentGroup.getElements()
+		ListIterator<DrawingPrimitive> elementItr = currentGroup.getPrimitives()
 													.listIterator();
 		
 		while (elementItr.hasNext()) {

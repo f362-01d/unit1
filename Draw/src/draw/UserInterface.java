@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.IOException;
 import java.util.*;
 import draw.operations.*;
 
@@ -23,6 +24,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
 	Create line_create;
 	Delete delete;
 	Select select;
+	draw.operations.Group group;
 	Move move;
 	Copy copy;
     JMenu file;
@@ -153,6 +155,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     	move = new Move(panel,myCanvas);
     	select = new Select(panel, myCanvas);
     	copy = new Copy(panel, myCanvas);
+    	group = new draw.operations.Group(panel, myCanvas);
         panel.addKeyListener(delete);
         panel.addKeyListener(copy);
     }
@@ -191,11 +194,21 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         		System.out.println("/"+ext+"/");
         		if (ext.equals(".txt")){
         			TextBuilder builder = new TextBuilder();
-        			builder.save(myCanvas.getPrimitives(), filename);
+        			try {
+						builder.save(myCanvas.getPrimitives(), filename);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         		}
         		else if (ext.equals(".xml")){
         			XMLBuilder builder = new XMLBuilder();
-        			builder.save(myCanvas.getPrimitives(),filename);
+        			try {
+						builder.save(myCanvas.getPrimitives(),filename);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         		}
         		else{
         			JOptionPane.showMessageDialog(this, "Incorrect extention");
@@ -255,6 +268,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         	swapColor(selectButton);
         	panel.addMouseListener(select);
         	panel.addKeyListener(select);
+        }
+        
+        if(command == "Group/Ungroup")
+        {
+        	group.groupSelected();
         }
     }
     
