@@ -4,12 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.*;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.*;
-
+import draw.DrawingPanel;
 import draw.Canvas;
 import draw.DrawingPrimitive;
 import draw.Operation;
+import draw.UserInterface;
 import draw.primitives.Rectangle;
 
 public class Create<T extends DrawingPrimitive> extends Operation implements MouseListener, MouseMotionListener {
@@ -29,7 +29,8 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 		Graphics2D g = (Graphics2D)this.getComponent().getGraphics();
 		T primitive;
 		try {
-			this.getComponent().repaint();
+			DrawingPanel panel =(DrawingPanel) this.getComponent();
+			panel.paintComponent(panel.getGraphics(), getCanvas());
 			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, arg0.getPoint()});
 			this.primitive.draw(g);
 		} catch (Exception e) {
@@ -41,6 +42,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		System.out.println(arg0.getY());
 		
 	}
 
@@ -71,8 +73,9 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 	public void mouseReleased(MouseEvent arg0) {
 		try {
 			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
-			this.getCanvas().getPrimitives().add(primitive);
-			this.getComponent().repaint();
+			this.getCanvas().add(primitive);
+			DrawingPanel panel = (DrawingPanel) this.getComponent();
+			panel.paintComponent(panel.getGraphics(),getCanvas());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

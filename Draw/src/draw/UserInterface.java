@@ -18,6 +18,9 @@ import draw.operations.*;
 
 public class UserInterface extends JFrame implements ActionListener, Observer{
     
+	Create rect_create;
+	Create line_create;
+	Select select;
     JMenu file;
     JMenu edit; 
     JMenu create;
@@ -25,7 +28,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JButton selectButton;
     JButton createLine;
     JButton createRectangle;
-    drawingPanel panel;
+    DrawingPanel panel;
     public static boolean selected = false;
     Canvas myCanvas;
     Color defaultBackground;
@@ -44,7 +47,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Creates a generic JPanel
-        panel = new drawingPanel();
+        panel = new DrawingPanel();
         
         
         JMenuBar menuBar = new JMenuBar();
@@ -115,7 +118,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         add(selectButton);
         add(group);
         add(panel);
-        
+    	
         // Because we set the layout to null, we must manually set the bounds for the objects.
         createLine.setBounds(new Rectangle(0,50,133,20));
         createRectangle.setBounds(new Rectangle(133,50,133,20));
@@ -143,12 +146,15 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      */
     public void attachCanvas(Canvas canvas){
     	myCanvas = canvas;
+        rect_create = new Create(panel,myCanvas,new draw.primitives.Rectangle(null,null).getClass());
+    	line_create = new Create(panel,myCanvas,new Line(null,null).getClass());
+    	select = new Select(panel, myCanvas);
     }
     
     // test main object
     public static void main (String[]args){
+    	Canvas myCanvas = new Canvas();
         UserInterface draw = new UserInterface("Draw");
-        Canvas myCanvas = new Canvas();
         draw.attachCanvas(myCanvas);
         draw.setVisible(true);
     }
@@ -162,6 +168,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         String command = arg0.getActionCommand();
         System.out.println(command);
         resetButtons();
+        removeListeners();
         if (command == "Open"){
         	int returnVal = fc.showOpenDialog(UserInterface.this);
 
@@ -178,18 +185,17 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
         	swapColor(createLine);
-        	Create c = new Create(panel,myCanvas,new Line(null,null).getClass());
-        	addMouseListener(c);
-        	addMouseMotionListener(c);
+        	
+        	panel.addMouseListener(line_create);
+        	panel.addMouseMotionListener(line_create);
             update(myCanvas,null);
         }
-        // if (command == "Create Line")
         
         if (command == "Rectangle" || command == "Create Rectangle") {
         	swapColor(createRectangle);
-        	Create c = new Create(panel,myCanvas,new Rectangle(null,null).getClass());
-        	addMouseListener(c);
-        	addMouseMotionListener(c);
+    
+        	panel.addMouseListener(rect_create);
+        	panel.addMouseMotionListener(rect_create);
             update(myCanvas,null);
         }
         	
@@ -206,6 +212,8 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         }
         else if (command == "Select"){
         	swapColor(selectButton);
+        	panel.addMouseListener(select);
+        	panel.addKeyListener(select);
         }
     }
     
@@ -220,66 +228,18 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     	createRectangle.setBackground(defaultBackground);
     }
     
+    public void removeListeners(){
+    	panel.removeMouseListener(line_create);
+    	panel.removeMouseMotionListener(line_create);
+    	panel.removeMouseListener(rect_create);
+    	panel.removeMouseMotionListener(rect_create);
+    }
+    
     public void swapColor(JButton button){
     	if(button.getBackground()==defaultBackground)
     		button.setBackground(Color.gray);
     	else
     		button.setBackground(defaultBackground);		
-    }
-}
-
-/*
- * drawingPanel.java
- * @author Steven Horowitz
- * This is a sub-class that handles the drawing of all objects on the screen.
- */
-class drawingPanel extends JPanel{
-    public drawingPanel(){
-        setSize(400,400);
-        this.setBackground(Color.white);
-		this.setFocusable(true);
-		this.requestFocus(); 
-    }
-    
-    /*
-     * paintComponents
-     * @param g - the graphics object for the class; handles drawing of all objects.
-     * This is the method where all items are drawn in.
-     */
-    public void paintComponent(Graphics g, Observable myCanvas){
-        super.paintComponent(g);
-        Canvas newCanvas = (Canvas) myCanvas;
-        ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getPrimitives();
-        for (int i = 0;i<myPrimitives.size(); i++)
-        	myPrimitives.get(i).draw((Graphics2D)g);
-    }
-
-    /*
-     * public mouseClicked
-     * @param arg0- the click of a mouse
-     * This method registers any and all mouse clicks. Will likely be replaced by a more involved action handler.
-     */
-    public void mouseClicked(MouseEvent arg0) {
-        UserInterface.selected = !UserInterface.selected;
-    }
-
-    // unimplmeneted methods
-    public void mouseEntered(MouseEvent arg0) {}
-    public void mouseExited(MouseEvent arg0) {}
-    public void mousePressed(MouseEvent arg0) {}
-    public void mouseReleased(MouseEvent arg0) {}
-    public void mouseDragged(MouseEvent arg0) {}
-    // end unimplemented methods.
-    
-    /*
-     * public mouseMoved -
-     * @param arg0 - the mouse's current position data.
-     * This will update every time the mouse shifts position. Useful for moving objects around on the screen. Should call
-     * repaint when an ojbect moves, so that the movement can be tracked in the view.
-     */
-    public void mouseMoved(MouseEvent arg0) {
-        if(UserInterface.selected)
-            System.out.println(arg0);
     }
 }
 
