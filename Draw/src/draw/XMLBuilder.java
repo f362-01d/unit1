@@ -13,7 +13,7 @@ public class XMLBuilder extends FileBuilder {
 		BufferedWriter saver = null;
 		
 		try {
-			saver = new BufferedWriter(new FileWriter(n));
+			saver = new BufferedWriter(new FileWriter(n + ".xml"));
 		} catch (IOException e) {
 			System.err.println("Could not write file.");
 		}

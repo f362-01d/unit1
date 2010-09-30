@@ -14,7 +14,7 @@ public class TextBuilder extends FileBuilder {
 		BufferedWriter saver = null;
 		
 		try {
-			saver = new BufferedWriter(new FileWriter(n));
+			saver = new BufferedWriter(new FileWriter(n + ".txt"));
 		} catch (IOException e) {
 			System.err.println("Could not write file.");
 		}
