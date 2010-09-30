@@ -12,6 +12,7 @@ import java.awt.Rectangle;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import draw.operations.*;
 
 public class UserInterface extends JFrame implements ActionListener, Observer{
     
@@ -170,6 +171,8 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Quit")
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
+        	Create c = new Create(panel,myCanvas,new Line(null,null).getClass());
+        	addMouseListener(c);
             update(myCanvas,null);
         }
         if (command == "Create Line")
@@ -235,8 +238,6 @@ class drawingPanel extends JPanel implements MouseListener, MouseMotionListener{
         super.paintComponent(g);
         Canvas newCanvas = (Canvas) myCanvas;
         ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getPrimitives();
-        DrawingPrimitive newPrimitive = new Line(new Point(0,0),new Point(100,100));
-        myPrimitives.add(newPrimitive);
         for (int i = 0;i<myPrimitives.size(); i++)
         	myPrimitives.get(i).draw((Graphics2D)g);
     }
