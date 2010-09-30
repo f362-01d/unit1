@@ -15,13 +15,20 @@ public class Rectangle extends DrawingPrimitive {
 	public Rectangle(Point p1, Point p2)
 	{
 		super(p1, p2);
+		
 		if(p1 != null && p2 != null)
 		{
+			double minX = p1.getX() < p2.getX() ? p1.getX() : p2.getX();
+			double minY = p1.getY() < p2.getY() ? p1.getY() : p2.getY();
+			double maxX = p1.getX() > p2.getX() ? p1.getX() : p2.getX();
+			double maxY = p1.getY() > p2.getY() ? p1.getY() : p2.getY();
+			p1 = new Point((int)minX, (int)minY);
+			p2 = new Point((int)maxX, (int)maxY);
 			this.setPosition(p1);
 			this.setSize(new Dimension((int)Math.abs(p2.getX()-p1.getX()), (int)Math.abs(p2.getY()-p1.getY())));
 		}
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(this.getColor());
@@ -46,6 +53,20 @@ public class Rectangle extends DrawingPrimitive {
 	@Override
 	public void setSize(Dimension d) {
 		size = d;
+	}
+
+	@Override
+	public Boolean contains(Point p) {
+		int x = (int)p.getX();
+		int y = (int)p.getY();
+		int x1 = (int)topLeft.getX();
+		int y1 = (int)topLeft.getY();
+		int w = (int)size.getWidth();
+		int h = (int)size.getHeight();
+		if(x > x1 && y > y1 && x < x1 + w && y < y1 + h)
+			return true;
+		else
+			return false;
 	}
 
 }
