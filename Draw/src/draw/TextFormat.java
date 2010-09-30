@@ -38,12 +38,12 @@ public class TextFormat extends FileFormat {
 				this.shapes.add(new Line(new Point(Integer.parseInt(line[1]),
 						Integer.parseInt(line[2])), 
 						new Point(Integer.valueOf(line[3]),
-								Integer.valueOf(line[3]))));
+								Integer.valueOf(line[4]))));
 			} else if (line[0].equals("rect")) {
 				this.shapes.add(new Rectangle(new Point(Integer.parseInt(line[1]),
 						Integer.valueOf(line[2])), 
 						new Point(Integer.parseInt(line[3]),
-								Integer.parseInt(line[3]))));
+								Integer.parseInt(line[4]))));
 			} else if (line[0].equals("begin")) {
 				
 			} else {
