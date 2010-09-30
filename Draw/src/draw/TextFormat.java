@@ -1,6 +1,7 @@
 package draw;
 
 import java.util.*;
+import java.awt.Color;
 import java.awt.Point;
 
 import draw.primitives.Line;
@@ -17,9 +18,9 @@ public class TextFormat extends FileFormat {
 		
 		while (shapeItr.hasNext()) {
 			DrawingPrimitive currentShape = shapeItr.next();
-			if (currentShape.getClass().toString().equals("Line")) {
+			if (currentShape.getClass().toString().equals("class draw.primitives.Line")) {
 				makeLLines(this.shapeLines, currentShape);
-			} else if (currentShape.getClass().toString().equals("Rectangle")) {
+			} else if (currentShape.getClass().toString().equals("class draw.primitives.Rectangle")) {
 				makeRLines(this.shapeLines, currentShape);
 			} else {
 				makeGLines(this.shapeLines, currentShape);
@@ -53,27 +54,45 @@ public class TextFormat extends FileFormat {
 	
 	protected void makeLLines(ArrayList<String> l,
 								DrawingPrimitive p) {
-		String line = new String("line ");
-		line.concat(p.getPosition().getX() + " ");
-		line.concat(p.getPosition().getY() + " ");
-		line.concat((p.getPosition().getX()
-				+ p.getSize().getWidth()) + " ");
-		line.concat((p.getPosition().getY()
-				+ p.getSize().getHeight()) + " ");
-		line.concat(p.getColor().toString());
+		String line = new String("line "
+				+ p.getPosition().getX() + " "
+				+ p.getPosition().getY() + " "
+				+ (p.getPosition().getX()
+						+ p.getSize().getWidth()) + " "
+				+ (p.getPosition().getY()
+						+ p.getSize().getHeight()) + " ");
+		if (p.getColor() == Color.BLACK) {
+			line = line.concat("k");
+		} else if (p.getColor().getRGB() == Color.BLUE.getRGB()) {
+			line = line.concat("b");
+		} else if (p.getColor().getRGB() == Color.GREEN.getRGB()) {
+			line = line.concat("g");
+		} else if (p.getColor().getRGB() == Color.RED.getRGB()) {
+			line = line.concat("r");
+		} else {
+		}
 		l.add(line);
 	}
 	
 	protected void makeRLines(ArrayList<String> l,
 								DrawingPrimitive p) {
 		String line = new String("rect ");
-		line.concat(p.getPosition().getX() + " ");
-		line.concat(p.getPosition().getY() + " ");
-		line.concat((p.getPosition().getX()
+		line = line.concat(p.getPosition().getX() + " ");
+		line = line.concat(p.getPosition().getY() + " ");
+		line = line.concat((p.getPosition().getX()
 				+ p.getSize().getWidth()) + " ");
-		line.concat((p.getPosition().getY()
+		line = line.concat((p.getPosition().getY()
 				+ p.getSize().getHeight()) + " ");
-		line.concat(p.getColor().toString());
+		if (p.getColor() == Color.BLACK) {
+			line = line.concat("k");
+		} else if (p.getColor().getRGB() == Color.BLUE.getRGB()) {
+			line = line.concat("b");
+		} else if (p.getColor().getRGB() == Color.GREEN.getRGB()) {
+			line = line.concat("g");
+		} else if (p.getColor().getRGB() == Color.RED.getRGB()) {
+			line = line.concat("r");
+		} else {
+		}
 		l.add(line);
 	}
 	
