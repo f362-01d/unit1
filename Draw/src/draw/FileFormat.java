@@ -18,6 +18,7 @@ public abstract class FileFormat {
 	
 	public FileFormat(ArrayList<DrawingPrimitive> s) {
 		shapes = s;
+		shapeLines = new ArrayList<String>();
 	}
 	
 	/*
@@ -26,7 +27,7 @@ public abstract class FileFormat {
 	 * for Text or a line for XML.
 	 */
 	
-	public abstract ArrayList<String> makeShapeList();
+	public abstract ArrayList<String> makeStringList();
 	
 	/*
 	 * This method reads in the lines of a specific file type
@@ -34,5 +35,14 @@ public abstract class FileFormat {
 	 * Draw to read in.
 	 */
 	
-	public abstract ArrayList<DrawingPrimitive> makeShapes();
+	public abstract ArrayList<DrawingPrimitive> makeShapes(ArrayList<String> l);
+	
+	protected abstract void makeLLines(ArrayList<String> l,
+										DrawingPrimitive p);
+	
+	protected abstract void makeRLines(ArrayList<String> l,
+										DrawingPrimitive p);
+	
+	protected abstract void makeGLines(ArrayList<String> l,
+										DrawingPrimitive p);
 }
