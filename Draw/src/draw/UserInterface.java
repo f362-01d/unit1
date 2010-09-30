@@ -35,7 +35,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JButton createLine;
     JButton createRectangle;
     DrawingPanel panel;
-    Canvas myCanvas;
+    public Canvas myCanvas;
     Color defaultBackground;
     JFileChooser fc;
     
@@ -68,6 +68,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         JMenuItem copyMenu = new JMenuItem("Copy");
         JMenuItem groupMenu = new JMenuItem("Group");
         JMenuItem open = new JMenuItem("Open");
+        JMenuItem newItem = new JMenuItem("New");
         
         //the buttons that allow you to add items without going through the menu.
         createLine = new JButton("Create Line");
@@ -96,8 +97,10 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         group.addActionListener(this);
         groupMenu.addActionListener(this);
         open.addActionListener(this);
+        newItem.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
+        file.add(newItem);
         file.add(open);
         file.add(save);
         file.add(quit);
@@ -178,10 +181,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         resetButtons();
         removeListeners();
         if (command == "Open"){
-        	int returnVal = fc.showOpenDialog(UserInterface.this);
-
-        	if (returnVal == JFileChooser.APPROVE_OPTION) 
-        		System.out.println( fc.getSelectedFile());
+        	Save save = new Save(this);
+        	ArrayList<DrawingPrimitive> myPrimitives = save.load();
+        	if(myPrimitives.size()!=0)
+        		for(int i = 0; i<myPrimitives.size();i++)
+        			myCanvas.add(myPrimitives.get(i));
         }
         if (command == "Copy"){
         	copy.copySelected();
@@ -214,6 +218,8 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         			JOptionPane.showMessageDialog(this, "Incorrect extention");
         		}
         	}
+        	Save mySave = new Save(this);
+        	mySave.saveFile();
         }
         if (command == "Quit")
             System.exit(0);
@@ -258,6 +264,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Delete"){
             delete.deleteSelected();
             
+        }
+        
+        if (command == "New"){
+        	myCanvas = new Canvas();
+        	update(myCanvas,null);
         }
         if (command == "Move"){
         	swapColor(moveButton);

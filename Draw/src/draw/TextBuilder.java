@@ -1,12 +1,7 @@
 package draw;
 
 import java.util.*;
-import java.awt.Point;
 import java.io.*;
-import draw.primitives.*;
-
-import draw.primitives.Line;
-import draw.primitives.Rectangle;
 
 public class TextBuilder extends FileBuilder {
 	
@@ -64,7 +59,8 @@ public class TextBuilder extends FileBuilder {
 	}
 	
 	public static void main(String[] args) {
-		ArrayList<DrawingPrimitive> testList = new ArrayList<DrawingPrimitive>();
+		ArrayList<DrawingPrimitive> testList = 
+			  new ArrayList<DrawingPrimitive>();
 		TextBuilder builder = new TextBuilder();
 		
 		try {
