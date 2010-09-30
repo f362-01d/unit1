@@ -56,4 +56,9 @@ public class Line extends DrawingPrimitive {
 			start.setLocation(start.getX(), end.getY() + d.getHeight());
 	}
 
+	@Override
+	public Boolean contains(Point p) {
+		return false;
+	}
+
 }
