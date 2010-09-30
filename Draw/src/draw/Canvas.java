@@ -1,16 +1,19 @@
 package draw;
 
 import java.util.*;
-import draw.DrawingPrimative;
 
 public class Canvas extends Observable {
 	
     private ArrayList<DrawingPrimitive> primitives;
 
-    public Canvas() {
+    public Canvas(){
         primitives = new ArrayList<DrawingPrimitive>();
-    } // Canvas constructor
+    } // Canvas npo-args constructor
 	
+    public Canvas( ArrayList<DrawingPrimitive> importPrimitives ){
+        primitives = importPrimitives;
+    } // Canvas data load constructor
+
     public ArrayList<DrawingPrimitive> getSelected() {
 
         ArrayList<DrawingPrimitive> selected =
@@ -18,7 +21,7 @@ public class Canvas extends Observable {
 
         // Iterate over the array of DrawingPrimitives, adding all selected
         // elements to another array which is later returned.
-        for(int i=0;i<primitives.size;i++){
+        for(int i=0;i<primitives.size();i++){
             if( primitives.get(i).isSelected() ){
                 selected.add( primitives.get(i) );
             } // if
@@ -45,7 +48,11 @@ public class Canvas extends Observable {
         return targetFound;
     } // setSelected()
 
-    public void add( DrawingPrimative newPrimitive ){
+    public ArrayList<DrawingPrimitive> getPrimitives(){
+        return primitives;
+    } // getPrimitives()
+
+    public void add( DrawingPrimitive newPrimitive ){
         primitives.add( newPrimitive );
     } // add()
 
