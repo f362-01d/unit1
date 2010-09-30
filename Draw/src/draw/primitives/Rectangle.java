@@ -69,4 +69,9 @@ public class Rectangle extends DrawingPrimitive {
 			return false;
 	}
 
+	@Override
+	public DrawingPrimitive clone() {
+		return new Rectangle(this.topLeft, new Point((int)(topLeft.getX() + size.getWidth()), (int)(topLeft.getY() + size.getHeight())));
+	}
+
 }

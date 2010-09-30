@@ -197,4 +197,9 @@ public class Line extends DrawingPrimitive {
 		return p;
 	}
 
+	@Override
+	public DrawingPrimitive clone() {
+		return new Line(start, end);
+	}
+
 }
