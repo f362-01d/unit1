@@ -44,6 +44,10 @@ public class Canvas extends Observable {
         return targetFound;
     } // setSelected()
 
+    public ArrayList<DrawingPrimitive> getPrimitives(){
+        return primitives;
+    } // getPrimitives()
+
     public void add( DrawingPrimitive newPrimitive ){
         primitives.add( newPrimitive );
     } // add()
