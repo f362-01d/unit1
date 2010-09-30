@@ -32,7 +32,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JButton createLine;
     JButton createRectangle;
     DrawingPanel panel;
-    Canvas myCanvas;
+    public Canvas myCanvas;
     Color defaultBackground;
     JFileChooser fc;
     
@@ -174,32 +174,17 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         resetButtons();
         removeListeners();
         if (command == "Open"){
-        	int returnVal = fc.showOpenDialog(UserInterface.this);
-
-        	if (returnVal == JFileChooser.APPROVE_OPTION) 
-        		System.out.println( fc.getSelectedFile());
+        	Save save = new Save(this);
+        	ArrayList<DrawingPrimitive> myPrimitives = save.load();
+        	for(int i = 0; i<myPrimitives.size();i++)
+        		myCanvas.add(myPrimitives.get(i));
         }
         if (command == "Copy"){
         	copy.copySelected();
         }
         if (command == "Save"){
-        	int returnVal = fc.showSaveDialog(UserInterface.this);
-        	if (returnVal == JFileChooser.APPROVE_OPTION){
-        		String filename = fc.getSelectedFile().getName();
-        		String ext = filename.substring(filename.indexOf('.'));
-        		System.out.println("/"+ext+"/");
-        		if (ext.equals(".txt")){
-        			TextBuilder builder = new TextBuilder();
-        			builder.save(myCanvas.getPrimitives(), filename);
-        		}
-        		else if (ext.equals(".xml")){
-        			XMLBuilder builder = new XMLBuilder();
-        			builder.save(myCanvas.getPrimitives(),filename);
-        		}
-        		else{
-        			JOptionPane.showMessageDialog(this, "Incorrect extention");
-        		}
-        	}
+        	Save mySave = new Save(this);
+        	mySave.saveFile();
         }
         if (command == "Quit")
             System.exit(0);
