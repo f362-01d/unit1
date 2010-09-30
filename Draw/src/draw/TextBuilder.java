@@ -47,14 +47,17 @@ public class TextBuilder extends FileBuilder {
 		TextFormat shapeFormat = new TextFormat(
 						new ArrayList<DrawingPrimitive>());
 		try {
-			reader = new BufferedReader(new FileReader(f));
+			reader = new BufferedReader(new FileReader(f+".txt"));
 			String line = new String();
-			line = reader.readLine();
-			while (!line.equals(null)) {
+			while (reader.ready()) {
+				line = reader.readLine();
 				lines.add(line);
 			}
 			reader.close();
 		} catch(IOException e) {
+			System.err.println("Error loading file.");
+			e.printStackTrace();
+		} catch(NumberFormatException ex) {
 			System.err.println("Error loading file.");
 		}
 		return shapeFormat.makeShapes(lines);
@@ -62,9 +65,8 @@ public class TextBuilder extends FileBuilder {
 	
 	public static void main(String[] args) {
 		ArrayList<DrawingPrimitive> testList = new ArrayList<DrawingPrimitive>();
-		testList.add(new Line(new Point(100,155), new Point(200,185)));
-		testList.add(new Rectangle(new Point(25,25),new Point(50,50)));
 		TextBuilder builder = new TextBuilder();
-		builder.save(testList, "test");
+		testList = builder.load("test");
+		builder.save(testList, "test2");
 	}
 }
