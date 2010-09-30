@@ -6,7 +6,9 @@ package draw;
  */
 
 import javax.swing.*;
+
 import draw.primitives.*;
+
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -40,7 +42,11 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         lines = new ArrayList<Line2D>();
         setSize(400,480);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Creates a generic JPanel
         panel = new drawingPanel();
+        
+        
         JMenuBar menuBar = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
@@ -171,16 +177,22 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Quit")
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
+        	swapColor(createLine);
         	Create c = new Create(panel,myCanvas,new Line(null,null).getClass());
         	addMouseListener(c);
+        	addMouseMotionListener(c);
             update(myCanvas,null);
         }
-        if (command == "Create Line")
-        	swapColor(createLine);
+        // if (command == "Create Line")
         
-        if (command == "Create Rectangle")
+        if (command == "Rectangle" || command == "Create Rectangle") {
         	swapColor(createRectangle);
-        
+        	Create c = new Create(panel,myCanvas,new Rectangle(null,null).getClass());
+        	addMouseListener(c);
+        	addMouseMotionListener(c);
+            update(myCanvas,null);
+        }
+        	
         if (command == "Properties"){
             editRectangle edit = new editRectangle("Edit line");
             edit.setVisible(true);
@@ -221,12 +233,12 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
  * @author Steven Horowitz
  * This is a sub-class that handles the drawing of all objects on the screen.
  */
-class drawingPanel extends JPanel implements MouseListener, MouseMotionListener{
+class drawingPanel extends JPanel{
     public drawingPanel(){
         setSize(400,400);
         this.setBackground(Color.white);
-        addMouseListener(this);
-        addMouseMotionListener(this);
+		this.setFocusable(true);
+		this.requestFocus(); 
     }
     
     /*
@@ -319,7 +331,7 @@ class editLine extends JFrame implements ActionListener{
      */
     public void actionPerformed(ActionEvent arg0) {
         System.out.println(group.getSelection().getActionCommand());
-        this.setVisible(false);
+        this.setVisible(true);
     }
 }
 
