@@ -1,4 +1,4 @@
-package Draw.src.draw;
+package draw;
 
 /* Draw.java
  * drawing GUI design
@@ -18,9 +18,14 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JMenu file;
     JMenu edit;
     JMenu create;
+    JButton moveButton;
+    JButton selectButton;
+    JButton createLine;
+    JButton createRectangle;
     drawingPanel panel;
     public static boolean selected = false;
     Canvas myCanvas;
+    Color defaultBackground;
     
     public static ArrayList<Line2D> lines;
     
@@ -31,7 +36,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     public UserInterface(String name){
         super(name);
         lines = new ArrayList<Line2D>();
-        setSize(400,450);
+        setSize(400,480);
         setResizable(false);
         panel = new drawingPanel();
         JMenuBar menuBar = new JMenuBar();
@@ -40,19 +45,29 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         create = new JMenu("Create");
         
         // the menu items; these are the selectable options in the top menu bar.
-        JMenuItem delete = new JMenuItem("Delete");
+        JMenuItem deleteMenu = new JMenuItem("Delete");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem quit = new JMenuItem("Quit");
         JMenuItem line = new JMenuItem("Line");
         JMenuItem rectangle = new JMenuItem("Rectangle");
         JMenuItem properties = new JMenuItem("Properties");
+        JMenuItem copyMenu = new JMenuItem("Copy");
         
         //the buttons that allow you to add items without going through the menu.
-        JButton createLine = new JButton("Create Line");
-        JButton createRectangle = new JButton("Create Rectangle");
+        createLine = new JButton("Create Line");
+        createRectangle = new JButton("Create Rectangle");
+        JButton copyButton = new JButton("Copy");
+        JButton deleteButton = new JButton("Delete");
+        moveButton = new JButton("Move");
+        selectButton = new JButton("Select");
+        JButton group = new JButton("Group/Ungroup");
+        defaultBackground = selectButton.getBackground();
         
         //add actionlisteners from jordan here.
-        delete.addActionListener(this);
+        deleteMenu.addActionListener(this);
+        deleteButton.addActionListener(this);
+        copyMenu.addActionListener(this);
+        copyButton.addActionListener(this);
         save.addActionListener(this);
         quit.addActionListener(this);
         line.addActionListener(this);
@@ -60,12 +75,16 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         properties.addActionListener(this);
         createLine.addActionListener(this);
         createRectangle.addActionListener(this);
+        selectButton.addActionListener(this);
+        moveButton.addActionListener(this);
+        group.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
         file.add(save);
         file.add(quit);
         edit.add(properties);
-        edit.add(delete);
+        edit.add(deleteMenu);
+        edit.add(copyMenu);
         create.add(line);
         create.add(rectangle);
         menuBar.add(file);
@@ -76,13 +95,23 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         add(menuBar);
         add(createLine);
         add(createRectangle);
+        add(copyButton);
+        add(deleteButton);
+        add(moveButton);
+        add(selectButton);
+        add(group);
         add(panel);
         
         // Because we set the layout to null, we must manually set the bounds for the objects.
-        createLine.setBounds(new Rectangle(0,30,200,20));
-        createRectangle.setBounds(new Rectangle(200,30,200,20));
+        createLine.setBounds(new Rectangle(0,50,133,20));
+        createRectangle.setBounds(new Rectangle(133,50,133,20));
+        group.setBounds(new Rectangle(266,50,134,20));
+        deleteButton.setBounds(new Rectangle(200,30,100,20));
+        copyButton.setBounds(new Rectangle(300,30,100,20));
         menuBar.setBounds(new Rectangle(0,0,400,30));
-        panel.setBounds(new Rectangle(0,50,400,400));
+        moveButton.setBounds(new Rectangle(0,30,100,20));
+        selectButton.setBounds(new Rectangle(100,30,100,20));
+        panel.setBounds(new Rectangle(0,70,400,400));
         
     }
     
@@ -118,11 +147,18 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     public void actionPerformed(ActionEvent arg0) {
         String command = arg0.getActionCommand();
         System.out.println(command);
+        resetButtons();
         if (command == "Quit")
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
             update(myCanvas,null);
         }
+        if (command == "Create Line")
+        	swapColor(createLine);
+        
+        if (command == "Create Rectangle")
+        	swapColor(createRectangle);
+        
         if (command == "Properties"){
             editRectangle edit = new editRectangle("Edit line");
             edit.setVisible(true);
@@ -131,6 +167,30 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
             UserInterface.lines.remove(0);
             update(null, null);
         }
+        if (command == "Move"){
+        	swapColor(moveButton);
+        }
+        else if (command == "Select"){
+        	swapColor(selectButton);
+        }
+    }
+    
+    /*
+     * public void resetButtons()
+     * resets the buttons to a base state.
+     */
+    public void resetButtons(){
+    	moveButton.setBackground(defaultBackground);
+    	selectButton.setBackground(defaultBackground);
+    	createLine.setBackground(defaultBackground);
+    	createRectangle.setBackground(defaultBackground);
+    }
+    
+    public void swapColor(JButton button){
+    	if(button.getBackground()==defaultBackground)
+    		button.setBackground(Color.gray);
+    	else
+    		button.setBackground(defaultBackground);		
     }
 }
 
