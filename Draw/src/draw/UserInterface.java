@@ -1,4 +1,4 @@
-package Draw.src.draw;
+package draw;
 
 /* Draw.java
  * drawing GUI design
@@ -14,8 +14,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class UserInterface extends JFrame implements ActionListener{
+public class UserInterface extends JFrame implements ActionListener, Observer{
     
     JMenu file;
     JMenu edit;
@@ -30,7 +32,7 @@ public class UserInterface extends JFrame implements ActionListener{
      * @param name - The name of the object to be displayed on the title bar of the frame.
      */
     public UserInterface(String name){
-        super(name);
+        super(name+"");
         lines = new ArrayList<Line2D>();
         setSize(400,450);
         setResizable(false);
@@ -91,7 +93,7 @@ public class UserInterface extends JFrame implements ActionListener{
      * public update
      * calls the repaint method on the view class, the panel.
      */
-    public void update(){
+    public void update(Observable arg0, Object arg1){
         panel.repaint();
     }
     
@@ -121,7 +123,7 @@ public class UserInterface extends JFrame implements ActionListener{
         }
         if (command == "Delete"){
             UserInterface.lines.remove(0);
-            update();
+            update(null, null);
         }
     }
 }
@@ -202,23 +204,27 @@ class editLine extends JFrame implements ActionListener{
     public editLine(String name){
         super(name);
         this.setFocusable(true);
-        setSize(200,200);
+        setSize(200,250);
         setLayout(new GridLayout(0,1));
         JRadioButton black = new JRadioButton("Black");
         black.setSelected(true);
         JRadioButton blue = new JRadioButton("Blue");
         JRadioButton green = new JRadioButton("Green");
+        JRadioButton red = new JRadioButton("Red");
         group = new ButtonGroup();
         done.addActionListener(this);
+        group.add(red);
         group.add(green);
         group.add(blue);
         group.add(black);
         black.setActionCommand("black");
+        red.setActionCommand("red");
         blue.setActionCommand("blue");
         green.setActionCommand("green");
         add(black);
         add(blue);
         add(green);
+        add(red);
         add(done);
     }
     
@@ -249,7 +255,7 @@ class editRectangle extends editLine implements ActionListener{
     public editRectangle(String name){
         super(name);
         remove(done);
-        setSize(300,300);
+        setSize(200,350);
         JRadioButton rounded = new JRadioButton ("Rounded Edges");
         JRadioButton hard = new JRadioButton ("Hard Edges");
         edges.add(rounded);
