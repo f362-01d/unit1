@@ -4,7 +4,7 @@ import java.awt.*;
 
 public abstract class DrawingPrimitive {
 	
-	private static final Color DEFAULT_COLOR = Color.RED;
+	private static final Color DEFAULT_COLOR = Color.BLACK;
 	
 	private Color color;
 	private Boolean selected = false;

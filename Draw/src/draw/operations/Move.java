@@ -34,6 +34,7 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 	public void mouseDragged(MouseEvent arg0) {
 		if(lastMousePosition != null)
 		{
+			getComponent().setCursor(new Cursor(Cursor.MOVE_CURSOR));
 			moveSelected((int)(arg0.getX()-lastMousePosition.getX()), (int)(arg0.getY()-lastMousePosition.getY()));
 		}
 		lastMousePosition = arg0.getPoint();
@@ -41,6 +42,7 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+		getComponent().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		lastMousePosition = null;
 	}
 
