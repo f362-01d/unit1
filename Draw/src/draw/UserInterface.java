@@ -27,7 +27,6 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     Canvas myCanvas;
     Color defaultBackground;
     JFileChooser fc;
-    
     public static ArrayList<Line2D> lines;
     
     /*
