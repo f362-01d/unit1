@@ -1,4 +1,6 @@
 package draw;
+import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -13,11 +15,21 @@ public class FileDirector {
     		String ext = filename.substring(filename.indexOf('.'));
     		if (ext.equals(".txt")){
     			TextBuilder builder = new TextBuilder();
-    			builder.save(myInterface.myCanvas.getPrimitives(), filename);
+    			try {
+					builder.save(myInterface.myCanvas.getPrimitives(), filename);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     		else if (ext.equals(".xml")){
     			XMLBuilder builder = new XMLBuilder();
-    			builder.save(myInterface.myCanvas.getPrimitives(),filename);
+    			try {
+					builder.save(myInterface.myCanvas.getPrimitives(),filename);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     		else{
     			JOptionPane.showMessageDialog(myInterface, "Incorrect extention");
