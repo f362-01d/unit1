@@ -9,8 +9,17 @@ import draw.DrawingPrimitive;
 
 public class Rectangle extends DrawingPrimitive {
 
-	Point topLeft;
-	Dimension size;
+	public enum CornerStyle
+	{
+		Sharp,
+		Rounded
+	}
+	
+	private static final int ROUND_CORNER_RADIUS = 5;
+	
+	private Point topLeft;
+	private Dimension size;
+	private CornerStyle cornerStyle = CornerStyle.Sharp;
 	
 	public Rectangle(Point p1, Point p2)
 	{
@@ -32,7 +41,19 @@ public class Rectangle extends DrawingPrimitive {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(this.getColor());
-		g.draw(new Rectangle2D.Double(topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight()));
+		if(isSelected())
+		{
+			BasicStroke stroke = new BasicStroke(3.0f);
+			g.setStroke(stroke);
+			if(this.cornerStyle == CornerStyle.Sharp)
+				g.drawRect((int)topLeft.getX(), (int)topLeft.getY(), (int)size.getWidth(), (int)size.getHeight());
+			else if(this.cornerStyle == CornerStyle.Rounded)
+				g.drawRoundRect((int)topLeft.getX(), (int)topLeft.getY(), (int)size.getWidth(), (int)size.getHeight(), ROUND_CORNER_RADIUS, ROUND_CORNER_RADIUS);
+		}
+		if(this.cornerStyle == CornerStyle.Sharp)
+			g.draw(new Rectangle2D.Double(topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight()));
+		else if(this.cornerStyle == CornerStyle.Rounded)
+			g.draw(new RoundRectangle2D.Double(ROUND_CORNER_RADIUS, ROUND_CORNER_RADIUS, topLeft.getX(), topLeft.getY(), size.getWidth(), size.getHeight()));
 	}
 
 	@Override
@@ -67,6 +88,17 @@ public class Rectangle extends DrawingPrimitive {
 			return true;
 		else
 			return false;
+	}
+	
+	public void setCornerStyle(CornerStyle cornerStyle)
+	{
+		System.out.println(cornerStyle);
+		this.cornerStyle = cornerStyle;
+	}
+	
+	public CornerStyle getCornerStyle()
+	{
+		return this.cornerStyle;
 	}
 
 	@Override

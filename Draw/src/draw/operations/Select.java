@@ -31,7 +31,6 @@ public class Select extends Operation implements KeyListener, MouseListener {
 		for(int i=0;i<primitives.size();i++)
 		{
 			primitives.get(i).setSelected(false);
-			primitives.get(i).setColor(Color.BLACK);
 			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 	}
@@ -66,7 +65,6 @@ public class Select extends Operation implements KeyListener, MouseListener {
 		if(!underCursor.isEmpty())
 		{
 			underCursor.get(underCursor.size()-1).setSelected(true);
-			underCursor.get(underCursor.size()-1).setColor(Color.BLUE);
 			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 		else
