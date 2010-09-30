@@ -22,6 +22,7 @@ public class Group extends DrawingPrimitive {
 	public void add(DrawingPrimitive primitive)
 	{
 		primitives.add(primitive);
+		setSelected(false);
 	}
 	
 	public Color getColor() {
@@ -29,16 +30,33 @@ public class Group extends DrawingPrimitive {
 	}
 	
 	public Point getPosition() {
-		return null;
+		return primitives.get(0).getPosition();
 	}
 	
 	public Dimension getSize() {
 		return null;
 	}
 	
-	public void setColor(Color c) {}
+	public void setColor(Color c) 
+	{
+		for(int i=0;i<primitives.size();i++)
+		{
+			primitives.get(i).setColor(c);
+		}
+	}
 	
-	public void setPosition(Point p) {}
+	public void setPosition(Point p) 
+	{
+		Point lastPosition = getPosition();
+		int dx = (int)(p.getX() - lastPosition.getX());
+		int dy = (int)(p.getY() - lastPosition.getY());
+		for(int i=0;i<primitives.size();i++)
+		{
+			DrawingPrimitive primitive = primitives.get(i);
+			Point newPos = new Point((int)primitive.getPosition().getX()+dx, (int)primitive.getPosition().getY()+dy);
+			primitive.setPosition(newPos);
+		}
+	}
 	
 	public void setSize(Dimension d) {}
 	
@@ -71,7 +89,11 @@ public class Group extends DrawingPrimitive {
 
 	@Override
 	public DrawingPrimitive clone() {
-		// TODO Auto-generated method stub
-		return null;
+		Group newGroup = new Group(null,null);
+		for(int i=0;i<primitives.size();i++)
+		{
+			newGroup.add(primitives.get(i).clone());	
+		}
+		return newGroup;
 	}
 }

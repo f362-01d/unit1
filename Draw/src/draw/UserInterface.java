@@ -283,7 +283,14 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         
         if(command == "Group/Ungroup")
         {
-        	group.groupSelected();
+        	System.out.println(myCanvas.getSelected().get(0).getClass().toString());
+        	if(myCanvas.getSelected().get(0).getClass().toString().equals("class draw.Group"))
+        	{
+        		System.out.println("ungrouping");
+        		group.ungroupSelected();
+        	}
+        	else
+        		group.groupSelected();
         }
     }
     

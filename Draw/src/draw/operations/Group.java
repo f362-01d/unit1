@@ -22,10 +22,32 @@ public class Group extends Operation {
 		ArrayList<DrawingPrimitive> selection = getCanvas().getSelected();
 		for(int i=0;i<selection.size();i++)
 		{
-			getCanvas().remove(selection.get(i));
-			newGroup.add(selection.get(i));
+			if(!selection.get(i).getClass().toString().equals("class draw.Group"))
+			{
+				getCanvas().remove(selection.get(i));
+				newGroup.add(selection.get(i));
+			}
 		}
 		getCanvas().add(newGroup);
+		((DrawingPanel)getComponent()).paintComponent(getCanvas());
+	}
+	
+	public void ungroupSelected()
+	{
+		ArrayList<DrawingPrimitive> selection = getCanvas().getSelected();
+		for(int i=0;i<selection.size();i++)
+		{
+			if(selection.get(i).getClass().toString().equals("class draw.Group"))
+			{
+				draw.Group grp = (draw.Group)selection.get(i);
+				getCanvas().remove(grp);
+				for(int j=0;j<grp.getPrimitives().size();j++)
+				{
+					grp.getPrimitives().get(j).setSelected(false);
+					getCanvas().add(grp.getPrimitives().get(j));
+				}
+			}
+		}
 		((DrawingPanel)getComponent()).paintComponent(getCanvas());
 	}
 
