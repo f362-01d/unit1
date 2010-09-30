@@ -1,6 +1,10 @@
 package draw;
 
 import java.util.*;
+import java.awt.Point;
+
+import draw.primitives.Line;
+import draw.primitives.Rectangle;
 
 public class TextFormat extends FileFormat {
 	
@@ -26,7 +30,25 @@ public class TextFormat extends FileFormat {
 	}
 	
 	public ArrayList<DrawingPrimitive> makeShapes(ArrayList<String> l) {
-		return null;
+		ListIterator<String> lineItr = l.listIterator();
+		while (lineItr.hasNext()) {
+			String[] line = lineItr.next().split(" ");
+			if (line[0].equals("line")) {
+				this.shapes.add(new Line(new Point(Integer.valueOf(line[1]),
+						Integer.valueOf(line[2])), 
+						new Point(Integer.valueOf(line[3]),
+								Integer.valueOf(line[3]))));
+			} else if (line[0].equals("rect")) {
+				// this.shapes.add(new Rectangle(new Point(Integer.valueOf(line[1]),
+				//		Integer.valueOf(line[2])), 
+				//		new Point(Integer.valueOf(line[3]),
+				//				Integer.valueOf(line[3]))));
+			} else if (line[0].equals("begin")) {
+				
+			} else {
+			}
+		}
+		return this.shapes;
 	}
 	
 	protected void makeLLines(ArrayList<String> l,
@@ -57,9 +79,11 @@ public class TextFormat extends FileFormat {
 	
 	protected void makeGLines(ArrayList<String> l,
 								DrawingPrimitive p) {
+		
+		Group currentGroup = (Group) p;
 		l.add("begin");
 		
-		ListIterator<DrawingPrimitive> elementItr = p.getElements()
+		ListIterator<DrawingPrimitive> elementItr = currentGroup.getElements()
 													.listIterator();
 		
 		while (elementItr.hasNext()) {
