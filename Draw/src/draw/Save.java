@@ -23,7 +23,7 @@ public class Save {
     	if (returnVal == JFileChooser.APPROVE_OPTION) {
     		try{
     			TextBuilder file = new TextBuilder();
-    			return file.load(fc.getSelectedFile().getName());
+    			return file.load(fc.getSelectedFile().getAbsolutePath());
     		}
     		catch (Exception e){
     			JOptionPane.showMessageDialog(myInterface, "Invalid File");
