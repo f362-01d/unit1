@@ -35,11 +35,11 @@ public class Delete extends Operation implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		if(arg0.getKeyCode() == DELETE_KEY)
 		{
-			//ArrayList<DrawingPrimitive> toRemove = getCanvas().getSelected();
-			//while(!toRemove.isEmpty())
-			//{
-				
-			//}
+			ArrayList<DrawingPrimitive> toRemove = getCanvas().getSelected();
+			for(int i=0;i<toRemove.size();i++)
+			{
+				getCanvas().remove(toRemove.get(i));
+			}
 		}
 	}
 
