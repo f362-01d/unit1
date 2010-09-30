@@ -10,6 +10,12 @@ public class Line extends DrawingPrimitive {
 	Point start;
 	Point end;
 	
+	public Line(Point start, Point end) {
+		super(start, end);
+		this.start = start;
+		this.end = end;
+	}
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(this.getColor());
@@ -32,7 +38,8 @@ public class Line extends DrawingPrimitive {
 
 	@Override
 	public void setPosition(Point p) {
-		start = p;
+		end.translate((int)(p.getX()-start.getX()), (int)(p.getY()-start.getY()));
+		start = p;	
 	}
 
 	@Override
