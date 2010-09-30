@@ -3,6 +3,7 @@ package draw;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import draw.primitives.Rectangle;
 
 public class XMLFormat extends FileFormat {
 	
@@ -64,27 +65,41 @@ public class XMLFormat extends FileFormat {
 	}
 	
 	protected void makeRLines(ArrayList<String> l, DrawingPrimitive d) {
+		
+		Rectangle currentRec = (Rectangle) d;
+		
 		l.add("	<rectangle>");
 		l.add("		<upper-left>");
-		l.add("			<x>" + d.getPosition().getX() + "</x>");
-		l.add("			<y>" + d.getPosition().getY() + "</y>");
+		l.add("			<x>" + currentRec.getPosition().getX() + "</x>");
+		l.add("			<y>" + currentRec.getPosition().getY() + "</y>");
 		l.add("		</upper-left>");
 		l.add("		<lower-right>");
-		l.add("			<x>" + (d.getPosition().getX()
+		l.add("			<x>" + (currentRec.getPosition().getX()
 				+ d.getSize().getWidth()) + "</x>");
-		l.add("			<y>" + (d.getPosition().getY()
+		l.add("			<y>" + (currentRec.getPosition().getY()
 				+ d.getSize().getHeight()) + "</y>");
 		l.add("		</lower-right>");
 		if (d.getColor() == Color.BLACK) {
 			l.add("		<color>black</color>");
-		} else if (d.getColor().getRGB() == Color.BLUE.getRGB()) {
+		} else if (currentRec.getColor().getRGB() 
+							== Color.BLUE.getRGB()) {
 			l.add("		<color>blue</color>");
-		} else if (d.getColor().getRGB() == Color.GREEN.getRGB()) {
+		} else if (currentRec.getColor().getRGB() 
+							== Color.GREEN.getRGB()) {
 			l.add("		<color>green</color>");
-		} else if (d.getColor().getRGB() == Color.RED.getRGB()) {
+		} else if (currentRec.getColor().getRGB() 
+							== Color.RED.getRGB()) {
 			l.add("		<color>red</color>");
 		} else {
 		}
+		
+		if (currentRec.getCornerStyle().toString().equals("Rounded")) {
+			l.add("		<corner>rounded</corner>");
+		} else if (currentRec.getCornerStyle().toString().equals("Sharp")) {
+			l.add("		<corner>square</corner>");
+		} else {
+		}
+		
 		l.add("	</rectangle>");
 	}
 	
