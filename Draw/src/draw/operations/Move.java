@@ -17,18 +17,23 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 		super(component, canvas);
 	}
 	
+	public void moveSelected(int dx, int dy)
+	{
+		ArrayList<DrawingPrimitive> primitives = this.getCanvas().getSelected();
+		for(int i=0;i<primitives.size();i++)
+		{
+			DrawingPrimitive d = primitives.get(i);
+			Point p = (Point)d.getPosition().clone();
+			p.translate(dx, dy);
+			d.setPosition(p);
+		}
+	}
+	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		if(lastMousePosition != null)
 		{
-			ArrayList<DrawingPrimitive> primitives = this.getCanvas().getPrimitives();//getSelection();
-			for(int i=0;i<primitives.size();i++)
-			{
-				DrawingPrimitive d = primitives.get(i);
-				Point p = (Point)d.getPosition().clone();
-				p.translate((int)(arg0.getX()-lastMousePosition.getX()), (int)(arg0.getY()-lastMousePosition.getY()));
-				d.setPosition(p);
-			}
+			moveSelected((int)(arg0.getX()-lastMousePosition.getX()), (int)(arg0.getY()-lastMousePosition.getY()));
 			this.getComponent().repaint();
 		}
 		lastMousePosition = arg0.getPoint();

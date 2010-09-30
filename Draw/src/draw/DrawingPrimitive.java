@@ -23,6 +23,8 @@ public abstract class DrawingPrimitive {
 	
 	public abstract Boolean contains(Point p);
 	
+	public abstract DrawingPrimitive clone();
+	
 	public Color getColor()
 	{
 		return color;
