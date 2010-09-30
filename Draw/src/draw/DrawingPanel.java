@@ -27,12 +27,12 @@ public class DrawingPanel extends JPanel{
      * @param g - the graphics object for the class; handles drawing of all objects.
      * This is the method where all items are drawn in.
      */
-    public void paintComponent(Graphics g, Observable myCanvas){
-        super.paintComponent(g);
+    public void paintComponent(Observable myCanvas){
+        super.paintComponent(this.getGraphics());
         Canvas newCanvas = (Canvas) myCanvas;
         ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getPrimitives();
         for (int i = 0;i<myPrimitives.size(); i++)
-        	myPrimitives.get(i).draw((Graphics2D)g);
+        	myPrimitives.get(i).draw((Graphics2D)this.getGraphics());
     }
 
     /*
@@ -40,26 +40,11 @@ public class DrawingPanel extends JPanel{
      * @param arg0- the click of a mouse
      * This method registers any and all mouse clicks. Will likely be replaced by a more involved action handler.
      */
-    public void mouseClicked(MouseEvent arg0) {
-        UserInterface.selected = !UserInterface.selected;
-    }
-
-    // unimplmeneted methods
+    public void mouseClicked(MouseEvent arg0) {}
     public void mouseEntered(MouseEvent arg0) {}
     public void mouseExited(MouseEvent arg0) {}
     public void mousePressed(MouseEvent arg0) {}
     public void mouseReleased(MouseEvent arg0) {}
     public void mouseDragged(MouseEvent arg0) {}
-    // end unimplemented methods.
-    
-    /*
-     * public mouseMoved -
-     * @param arg0 - the mouse's current position data.
-     * This will update every time the mouse shifts position. Useful for moving objects around on the screen. Should call
-     * repaint when an ojbect moves, so that the movement can be tracked in the view.
-     */
-    public void mouseMoved(MouseEvent arg0) {
-        if(UserInterface.selected)
-            System.out.println(arg0);
-    }
+    public void mouseMoved(MouseEvent arg0)  {}
 }

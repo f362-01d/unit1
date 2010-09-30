@@ -6,12 +6,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.JComponent;
-
-import draw.Canvas;
+import draw.*;
 import draw.DrawingPrimitive;
-import draw.Operation;
 
 public class Select extends Operation implements KeyListener, MouseListener {
 
@@ -35,7 +32,7 @@ public class Select extends Operation implements KeyListener, MouseListener {
 		{
 			primitives.get(i).setSelected(false);
 			primitives.get(i).setColor(Color.BLACK);
-			getComponent().repaint();
+			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 	}
 
@@ -70,7 +67,7 @@ public class Select extends Operation implements KeyListener, MouseListener {
 		{
 			underCursor.get(underCursor.size()-1).setSelected(true);
 			underCursor.get(underCursor.size()-1).setColor(Color.BLUE);
-			getComponent().repaint();
+			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 		else
 		{

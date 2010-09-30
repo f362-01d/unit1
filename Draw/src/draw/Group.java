@@ -40,4 +40,16 @@ public class Group extends DrawingPrimitive {
 	public void setSize(Dimension d) {}
 	
 	public void draw(Graphics2D g) {}
+
+	@Override
+	public Boolean contains(Point p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DrawingPrimitive clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

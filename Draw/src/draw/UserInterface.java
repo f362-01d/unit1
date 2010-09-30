@@ -20,7 +20,10 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     
 	Create rect_create;
 	Create line_create;
+	Delete delete;
 	Select select;
+	Move move;
+	Copy copy;
     JMenu file;
     JMenu edit; 
     JMenu create;
@@ -29,11 +32,9 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JButton createLine;
     JButton createRectangle;
     DrawingPanel panel;
-    public static boolean selected = false;
     Canvas myCanvas;
     Color defaultBackground;
     JFileChooser fc;
-    public static ArrayList<Line2D> lines;
     
     /*
      * public class draw
@@ -42,7 +43,6 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     public UserInterface(String name){
         super(name);
         fc = new JFileChooser("SCRAW");
-        lines = new ArrayList<Line2D>();
         setSize(400,480);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +137,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * calls the repaint method on the view class, the panel.
      */
     public void update(Observable myCanvas, Object arg1){
-        panel.paintComponent(panel.getGraphics(),myCanvas);
+        panel.paintComponent(myCanvas);
     }
     
     /*
@@ -148,7 +148,12 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     	myCanvas = canvas;
         rect_create = new Create(panel,myCanvas,new draw.primitives.Rectangle(null,null).getClass());
     	line_create = new Create(panel,myCanvas,new Line(null,null).getClass());
+    	delete = new Delete(panel,myCanvas);
+    	move = new Move(panel,myCanvas);
     	select = new Select(panel, myCanvas);
+    	copy = new Copy(panel, myCanvas);
+        panel.addKeyListener(delete);
+        panel.addKeyListener(copy);
     }
     
     // test main object
@@ -174,6 +179,9 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
 
         	if (returnVal == JFileChooser.APPROVE_OPTION) 
         		System.out.println( fc.getSelectedFile());
+        }
+        if (command == "Copy"){
+        	copy.copySelected();
         }
         if (command == "Save"){
         	int returnVal = fc.showSaveDialog(UserInterface.this);
@@ -204,11 +212,13 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
             edit.setVisible(true);
         }
         if (command == "Delete"){
-            UserInterface.lines.remove(0);
-            update(null, null);
+            delete.deleteSelected();
+            
         }
         if (command == "Move"){
         	swapColor(moveButton);
+        	panel.addMouseListener(move);
+        	panel.addMouseMotionListener(move);
         }
         else if (command == "Select"){
         	swapColor(selectButton);
@@ -233,6 +243,10 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     	panel.removeMouseMotionListener(line_create);
     	panel.removeMouseListener(rect_create);
     	panel.removeMouseMotionListener(rect_create);
+    	panel.removeMouseMotionListener(move);
+    	panel.removeMouseListener(select);
+    	panel.removeMouseListener(move);
+    	panel.removeKeyListener(select);
     }
     
     public void swapColor(JButton button){

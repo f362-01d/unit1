@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import draw.Canvas;
+import draw.DrawingPanel;
 import draw.DrawingPrimitive;
 import draw.Operation;
 
@@ -24,7 +25,7 @@ public class Delete extends Operation implements KeyListener {
 		for(int i=0;i<toRemove.size();i++)
 		{
 			getCanvas().remove(toRemove.get(i));
-			getComponent().repaint();
+			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 	}
 

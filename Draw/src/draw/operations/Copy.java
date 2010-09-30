@@ -1,5 +1,6 @@
 package draw.operations;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import javax.swing.JComponent;
 
 import draw.Canvas;
 import draw.Draw;
+import draw.DrawingPanel;
 import draw.DrawingPrimitive;
 import draw.Operation;
 
@@ -32,7 +34,9 @@ public class Copy extends Operation implements KeyListener {
 			System.out.println(i);
 			DrawingPrimitive copy = selected.get(i).clone();
 			copy.setSelected(true);
+			copy.setColor(Color.BLUE);
 			getCanvas().add(copy);
+			((DrawingPanel)getComponent()).paintComponent(getCanvas());
 		}
 		m.moveSelected(COPY_OFFSET, COPY_OFFSET);
 	}
@@ -42,7 +46,6 @@ public class Copy extends Operation implements KeyListener {
 		if((arg0.getModifiersEx() & (COPY_MODIFIERS | 0)) == COPY_MODIFIERS && arg0.getKeyCode() == COPY_KEY)
 		{
 			copySelected();
-			getComponent().repaint();
 		}
 	}
 

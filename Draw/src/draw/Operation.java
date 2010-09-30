@@ -1,6 +1,7 @@
 package draw;
 
 import javax.swing.*;
+import draw.DrawingPanel;
 
 public abstract class Operation {
 	

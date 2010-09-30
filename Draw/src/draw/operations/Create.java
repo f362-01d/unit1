@@ -30,7 +30,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 		T primitive;
 		try {
 			DrawingPanel panel =(DrawingPanel) this.getComponent();
-			panel.paintComponent(panel.getGraphics(), getCanvas());
+			panel.paintComponent(getCanvas());
 			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, arg0.getPoint()});
 			this.primitive.draw(g);
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
 			this.getCanvas().add(primitive);
 			DrawingPanel panel = (DrawingPanel) this.getComponent();
-			panel.paintComponent(panel.getGraphics(),getCanvas());
+			panel.paintComponent(getCanvas());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -27,6 +27,7 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 			p.translate(dx, dy);
 			d.setPosition(p);
 		}
+		((DrawingPanel)getComponent()).paintComponent(getCanvas());
 	}
 	
 	@Override
@@ -34,7 +35,6 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 		if(lastMousePosition != null)
 		{
 			moveSelected((int)(arg0.getX()-lastMousePosition.getX()), (int)(arg0.getY()-lastMousePosition.getY()));
-			this.getComponent().repaint();
 		}
 		lastMousePosition = arg0.getPoint();
 	}
