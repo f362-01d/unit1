@@ -176,8 +176,9 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Open"){
         	Save save = new Save(this);
         	ArrayList<DrawingPrimitive> myPrimitives = save.load();
-        	for(int i = 0; i<myPrimitives.size();i++)
-        		myCanvas.add(myPrimitives.get(i));
+        	if(myPrimitives.size()!=0)
+        		for(int i = 0; i<myPrimitives.size();i++)
+        			myCanvas.add(myPrimitives.get(i));
         }
         if (command == "Copy"){
         	copy.copySelected();
