@@ -215,7 +215,7 @@ class drawingPanel extends JPanel implements MouseListener, MouseMotionListener{
     public void paintComponent(Graphics g, Observable myCanvas){
         super.paintComponent(g);
         Canvas newCanvas = (Canvas) myCanvas;
-        ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getElements();
+        ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getPrimitives();
         DrawingPrimitive newPrimitive = new Line(new Point(0,0),new Point(100,100));
         myPrimitives.add(newPrimitive);
         for (int i = 0;i<myPrimitives.size(); i++)
