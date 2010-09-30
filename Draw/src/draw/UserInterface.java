@@ -41,12 +41,12 @@ public class UserInterface extends JFrame implements ActionListener{
         create = new JMenu("Create");
         
         // the menu items; these are the selectable options in the top menu bar.
-        JMenuItem delete = new JMenuItem("delete");
-        JMenuItem save = new JMenuItem("save");
-        JMenuItem quit = new JMenuItem("quit");
-        JMenuItem line = new JMenuItem("line");
-        JMenuItem rectangle = new JMenuItem("rectangle");
-        JMenuItem properties = new JMenuItem("properties");
+        JMenuItem delete = new JMenuItem("Delete");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem quit = new JMenuItem("Quit");
+        JMenuItem line = new JMenuItem("Line");
+        JMenuItem rectangle = new JMenuItem("Rectangle");
+        JMenuItem properties = new JMenuItem("Properties");
         
         //the buttons that allow you to add items without going through the menu.
         JButton createLine = new JButton("Create Line");
@@ -63,10 +63,10 @@ public class UserInterface extends JFrame implements ActionListener{
         createRectangle.addActionListener(this);
         
         //we need to add all the created items to the GUI here.
-        file.add(quit);
         file.add(save);
-        edit.add(delete);
+        file.add(quit);
         edit.add(properties);
+        edit.add(delete);
         create.add(line);
         create.add(rectangle);
         menuBar.add(file);
@@ -109,17 +109,17 @@ public class UserInterface extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent arg0) {
         String command = arg0.getActionCommand();
         System.out.println(command);
-        if (command == "quit")
+        if (command == "Quit")
             System.exit(0);
-        if (command == "line" || command == "Create Line"){
+        if (command == "Line" || command == "Create Line"){
             lines.add(new Line2D.Double(10,10,200,200));
             panel.repaint();
         }
-        if (command == "properties"){
+        if (command == "Properties"){
             editRectangle edit = new editRectangle("Edit line");
             edit.setVisible(true);
         }
-        if (command == "delete"){
+        if (command == "Delete"){
             UserInterface.lines.remove(0);
             update();
         }
