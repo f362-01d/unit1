@@ -5,17 +5,13 @@ package draw;
  * @Author - Steven Horowitz
  */
 import javax.swing.*;
+
+import draw.primitives.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.awt.Rectangle;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.util.*;
 
 public class UserInterface extends JFrame implements ActionListener, Observer{
     
@@ -24,6 +20,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
     JMenu create;
     drawingPanel panel;
     public static boolean selected = false;
+    Canvas myCanvas;
     
     public static ArrayList<Line2D> lines;
     
@@ -32,7 +29,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * @param name - The name of the object to be displayed on the title bar of the frame.
      */
     public UserInterface(String name){
-        super(name+"");
+        super(name);
         lines = new ArrayList<Line2D>();
         setSize(400,450);
         setResizable(false);
@@ -93,13 +90,23 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * public update
      * calls the repaint method on the view class, the panel.
      */
-    public void update(Observable arg0, Object arg1){
-        panel.repaint();
+    public void update(Observable myCanvas, Object arg1){
+        panel.paintComponent(panel.getGraphics(),myCanvas);
+    }
+    
+    /*
+     * public attachCanvas
+     * attaches a canvas for the class to observe.
+     */
+    public void attachCanvas(Canvas canvas){
+    	myCanvas = canvas;
     }
     
     // test main object
     public static void main (String[]args){
         UserInterface draw = new UserInterface("Draw");
+        Canvas myCanvas = new Canvas();
+        draw.attachCanvas(myCanvas);
         draw.setVisible(true);
     }
 
@@ -114,8 +121,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Quit")
             System.exit(0);
         if (command == "Line" || command == "Create Line"){
-            lines.add(new Line2D.Double(10,10,200,200));
-            panel.repaint();
+            update(myCanvas,null);
         }
         if (command == "Properties"){
             editRectangle edit = new editRectangle("Edit line");
@@ -146,16 +152,14 @@ class drawingPanel extends JPanel implements MouseListener, MouseMotionListener{
      * @param g - the graphics object for the class; handles drawing of all objects.
      * This is the method where all items are drawn in.
      */
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g, Observable myCanvas){
         super.paintComponent(g);
-        
-        // test to make sure I can draw rectangles OK. Line will be represented by drawing primatives
-        // drawn from the canvas.
-        if(UserInterface.lines.size()!=0){
-            Point2D p1 = UserInterface.lines.get(0).getP1();
-            Point2D p2 = UserInterface.lines.get(0).getP2();
-            g.drawLine((int)p1.getX(),(int)p1.getY(),(int)p2.getX(),(int)p2.getY());
-        }
+        Canvas newCanvas = (Canvas) myCanvas;
+        ArrayList<DrawingPrimitive> myPrimitives = newCanvas.getElements();
+        DrawingPrimitive newPrimitive = new Line(new Point(0,0),new Point(100,100));
+        myPrimitives.add(newPrimitive);
+        for (int i = 0;i<myPrimitives.size(); i++)
+        	myPrimitives.get(i).draw((Graphics2D)g);
     }
 
     /*
