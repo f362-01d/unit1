@@ -6,10 +6,14 @@ public class Canvas extends Observable {
 	
     private ArrayList<DrawingPrimitive> primitives;
 
-    public Canvas() {
+    public Canvas(){
         primitives = new ArrayList<DrawingPrimitive>();
-    } // Canvas constructor
+    } // Canvas npo-args constructor
 	
+    public Canvas( ArrayList<DrawingPrimitive> importPrimitives ){
+        primitives = importPrimitives;
+    } // Canvas data load constructor
+
     public ArrayList<DrawingPrimitive> getSelected() {
 
         ArrayList<DrawingPrimitive> selected =

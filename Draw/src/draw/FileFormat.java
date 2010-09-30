@@ -35,7 +35,7 @@ public abstract class FileFormat {
 	 * Draw to read in.
 	 */
 	
-	public abstract ArrayList<DrawingPrimitive> makeShapes();
+	public abstract ArrayList<DrawingPrimitive> makeShapes(ArrayList<String> l);
 	
 	protected abstract void makeLLines(ArrayList<String> l,
 										DrawingPrimitive p);

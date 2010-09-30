@@ -69,9 +69,10 @@ public class XMLFormat extends FileFormat {
 	
 	protected void makeGLines(ArrayList<String> l, DrawingPrimitive d) {
 		
+		Group currentGroup = (Group) d;
 		l.add("<group>");
 		ListIterator<DrawingPrimitive> elementItr = 
-								d.getElements().listIterator();
+								currentGroup.getElements().listIterator();
 		
 		while (elementItr.hasNext()) {
 			DrawingPrimitive currentElement = elementItr.next();
