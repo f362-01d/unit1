@@ -183,7 +183,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Open"){
         	Save save = new Save(this);
         	ArrayList<DrawingPrimitive> myPrimitives = save.load();
-        	if(myPrimitives.size()!=0)
+        	if(myPrimitives!=null && myPrimitives.size()!=0)
         		for(int i = 0; i<myPrimitives.size();i++)
         			myCanvas.add(myPrimitives.get(i));
         }
@@ -291,7 +291,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
      * public void resetButtons()
      * resets the buttons to a base state.
      */
-    public void resetButtons(){
+    public void resetButtons(){ 
     	moveButton.setBackground(defaultBackground);
     	selectButton.setBackground(defaultBackground);
     	createLine.setBackground(defaultBackground);
