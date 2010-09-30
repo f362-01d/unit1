@@ -38,12 +38,12 @@ public class TextFormat extends FileFormat {
 				this.shapes.add(new Line(new Point(Integer.parseInt(line[1]),
 						Integer.parseInt(line[2])), 
 						new Point(Integer.valueOf(line[3]),
-								Integer.valueOf(line[3]))));
+								Integer.valueOf(line[4]))));
 			} else if (line[0].equals("rect")) {
 				this.shapes.add(new Rectangle(new Point(Integer.parseInt(line[1]),
 						Integer.valueOf(line[2])), 
 						new Point(Integer.parseInt(line[3]),
-								Integer.parseInt(line[3]))));
+								Integer.parseInt(line[4]))));
 			} else if (line[0].equals("begin")) {
 				
 			} else {
@@ -107,9 +107,9 @@ public class TextFormat extends FileFormat {
 		
 		while (elementItr.hasNext()) {
 			DrawingPrimitive currentElement = elementItr.next();
-			if (currentElement.getClass().toString().equals("Line")) {
+			if (currentElement.getClass().toString().equals("class draw.primitives.Line")) {
 				makeLLines(l, currentElement);
-			} else if (currentElement.getClass().toString().equals("Rectangle")) {
+			} else if (currentElement.getClass().toString().equals("class draw.primitives.Rectangle")) {
 				makeRLines(l, currentElement);
 			} else {
 				makeGLines(l, currentElement);
