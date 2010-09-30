@@ -56,6 +56,10 @@ public class Canvas extends Observable {
         primitives.add( newPrimitive );
     } // add()
 
+    public void add( ArrayList<DrawingPrimitive> newPrimitives ){
+        primitives.addAll( newPrimitives );
+    } // add()
+
     public void remove( DrawingPrimitive killPrimitive ){
         primitives.remove( killPrimitive );
     } // remove()
