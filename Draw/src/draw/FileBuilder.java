@@ -18,5 +18,4 @@ public abstract class FileBuilder {
 	
 	public abstract void save(ArrayList<DrawingPrimitive> p, 
 								String n);
-	
 }
