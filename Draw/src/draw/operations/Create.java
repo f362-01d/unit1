@@ -71,16 +71,19 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		try {
-			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
-			this.getCanvas().add(primitive);
-			DrawingPanel panel = (DrawingPanel) this.getComponent();
-			panel.paintComponent(getCanvas());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(mouseDownLocation != null)
+		{
+			try {
+				this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
+				this.getCanvas().add(primitive);
+				DrawingPanel panel = (DrawingPanel) this.getComponent();
+				panel.paintComponent(getCanvas());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mouseDownLocation = null;
 		}
-		mouseDownLocation = null;
 	}
 	
 }
