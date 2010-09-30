@@ -21,7 +21,7 @@ public class Move extends Operation implements MouseListener, MouseMotionListene
 	public void mouseDragged(MouseEvent arg0) {
 		if(lastMousePosition != null)
 		{
-			ArrayList<DrawingPrimitive> primitives = this.getCanvas().getElements();//getSelection();
+			ArrayList<DrawingPrimitive> primitives = this.getCanvas().getPrimitives();//getSelection();
 			for(int i=0;i<primitives.size();i++)
 			{
 				DrawingPrimitive d = primitives.get(i);

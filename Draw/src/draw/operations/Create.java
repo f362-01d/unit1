@@ -71,7 +71,7 @@ public class Create<T extends DrawingPrimitive> extends Operation implements Mou
 	public void mouseReleased(MouseEvent arg0) {
 		try {
 			this.primitive = (T) this.c.getConstructors()[0].newInstance(new Object[]{mouseDownLocation, mouseLastPosition});
-			this.getCanvas().getElements().add(primitive);
+			this.getCanvas().getPrimitives().add(primitive);
 			this.getComponent().repaint();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

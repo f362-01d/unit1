@@ -28,7 +28,7 @@ public class Rectangle extends DrawingPrimitive {
 			this.setSize(new Dimension((int)Math.abs(p2.getX()-p1.getX()), (int)Math.abs(p2.getY()-p1.getY())));
 		}
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(this.getColor());
