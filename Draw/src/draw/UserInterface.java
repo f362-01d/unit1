@@ -72,7 +72,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         menuBar.add(edit);
         menuBar.add(create);
         
-        setLayout(null);
+        setLayout(null );
         add(menuBar);
         add(createLine);
         add(createRectangle);
