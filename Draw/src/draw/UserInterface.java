@@ -183,43 +183,19 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         if (command == "Open"){
         	Save save = new Save(this);
         	ArrayList<DrawingPrimitive> myPrimitives = save.load();
-        	if(myPrimitives!=null && myPrimitives.size()!=0)
+        	if(myPrimitives!=null && myPrimitives.size()!=0){
+        		attachCanvas(new Canvas());
         		for(int i = 0; i<myPrimitives.size();i++)
         			myCanvas.add(myPrimitives.get(i));
+        	}
         }
         if (command == "Copy"){
         	copy.copySelected();
         }
         if (command == "Save"){
-        	int returnVal = fc.showSaveDialog(UserInterface.this);
-        	if (returnVal == JFileChooser.APPROVE_OPTION){
-        		String filename = fc.getSelectedFile().getName();
-        		String ext = filename.substring(filename.indexOf('.'));
-        		System.out.println("/"+ext+"/");
-        		if (ext.equals(".txt")){
-        			TextBuilder builder = new TextBuilder();
-        			try {
-						builder.save(myCanvas.getPrimitives(), filename);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-        		}
-        		else if (ext.equals(".xml")){
-        			XMLBuilder builder = new XMLBuilder();
-        			try {
-						builder.save(myCanvas.getPrimitives(),filename);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-        		}
-        		else{
-        			JOptionPane.showMessageDialog(this, "Incorrect extention");
-        		}
-        	}
         	Save mySave = new Save(this);
         	mySave.saveFile();
+        	update(myCanvas,null);
         }
         if (command == "Quit")
             System.exit(0);
@@ -267,7 +243,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         }
         
         if (command == "New"){
-        	myCanvas = new Canvas();
+        	attachCanvas(new Canvas());
         	update(myCanvas,null);
         }
         if (command == "Move"){
@@ -285,6 +261,7 @@ public class UserInterface extends JFrame implements ActionListener, Observer{
         {
         	group.groupSelected();
         }
+        update(myCanvas,null);
     }
     
     /*
