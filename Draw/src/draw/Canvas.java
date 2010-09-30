@@ -8,9 +8,7 @@ public class Canvas extends Observable {
     private ArrayList<DrawingPrimitive> primitives;
 
     public Canvas() {
-
         primitives = new ArrayList<DrawingPrimitive>();
-
     } // Canvas constructor
 	
     public ArrayList<DrawingPrimitive> getSelected() {
